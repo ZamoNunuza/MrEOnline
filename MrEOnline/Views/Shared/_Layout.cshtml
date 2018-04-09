@@ -1,4 +1,149 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Mr. E Online Rental</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+        <a href="#menu" class="toggle"><span>Menu</span></a>
+    </header>
+
+    <!-- Nav -->
+    <nav id="menu">
+        <ul class="links">
+
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+            @*<li><a href="generic.html">Generic</a></li>
+                <li><a href="elements.html">Elements</a></li>*@
+        </ul>
+    </nav>
+    @RenderBody()
+
+    <!-- Banner -->
+    <!--
+        To use a video as your background, set data-video to the name of your video without
+        its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
+        formats to work correctly.
+    -->
+    <!-- One -->
+    @*<section id="one" class="wrapper style2">
+            <div class="inner">
+                <div>
+                    <div class="box">
+                        <div class="image fit">
+                            <img src="images/pic01.jpg" alt="" />
+                        </div>
+                        <div class="content">
+                            <header class="align-center">
+                                <h2>Lorem ipsum dolor</h2>
+                                <p>maecenas feugiat ex purus, quis volutpat lacus placerat</p>
+                            </header>
+                            <hr />
+                            <p> Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit amet tortor velit. Nam elementum nibh a libero pharetra elementum. Maecenas feugiat ex purus, quis volutpat lacus placerat malesuada. Praesent in sem ex. Morbi mattis sapien pretium tellus venenatis, at egestas urna ornare.</p>
+                            <p>Vivamus fermentum nibh vel pharetra blandit. Cras a purus urna. Sed et libero ex. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse id hendrerit felis. Nulla viverra tempor dui at congue. Pellentesque quis nulla ornare, congue nisi id, finibus nulla. Aliquam sit amet hendrerit purus. Donec libero massa, posuere fermentum eros sit amet, maximus fringilla augue. Maecenas at rhoncus lorem. Vivamus ultricies consequat est, efficitur convallis libero. Vivamus rutrum semper mauris, vitae consequat eros tempor ac. Pellentesque et ornare sapien</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>*@
+
+    <!-- Two -->
+    @*<section id="two" class="wrapper style3">
+            <div class="inner">
+                <div id="flexgrid">
+                    <div>
+                        <header>
+                            <h3>Tempus Feugiat</h3>
+                        </header>
+                        <p>Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet, lectus arcu</p>
+                        <ul class="actions">
+                            <li><a href="#" class="button alt">Learn More</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <header>
+                            <h3>Aliquam Nulla</h3>
+                        </header>
+                        <p>Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed </p>
+                        <ul class="actions">
+                            <li><a href="#" class="button alt">Learn More</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <header>
+                            <h3>Sed Magna</h3>
+                        </header>
+                        <p>Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula.</p>
+                        <ul class="actions">
+                            <li><a href="#" class="button alt">Learn More</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>*@
+
+    <!-- Three -->
+    @*<section id="three" class="wrapper style2">
+            <div class="inner">
+                <div class="grid-style">
+
+                    <div>
+                        <div class="box">
+                            <div class="image fit">
+                                <img src="images/pic02.jpg" alt="" />
+                            </div>
+                            <div class="content">
+                                <header class="align-center">
+                                    <h2>Lorem ipsum dolor</h2>
+                                    <p>maecenas feugiat ex purus, quis volutpat lacus placerat</p>
+                                </header>
+                                <hr />
+                                <p> Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit amet tortor velit. Nam elementum nibh a libero pharetra elementum. Maecenas feugiat ex purus, quis volutpat lacus placerat malesuada. Praesent in sem ex. Morbi mattis sapien pretium tellus venenatis, at egestas urna ornare.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="box">
+                            <div class="image fit">
+                                <img src="images/pic03.jpg" alt="" />
+                            </div>
+                            <div class="content">
+                                <header class="align-center">
+                                    <h2>Vestibulum sit amet</h2>
+                                    <p>mattis sapien pretium tellus venenatis</p>
+                                </header>
+                                <hr />
+                                <p> Cras aliquet urna ut sapien tincidunt, quis malesuada elit facilisis. Vestibulum sit amet tortor velit. Nam elementum nibh a libero pharetra elementum. Maecenas feugiat ex purus, quis volutpat lacus placerat malesuada. Praesent in sem ex. Morbi mattis sapien pretium tellus venenatis, at egestas urna ornare.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>*@
+    <!-- Scripts -->
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.scrolly.min.js"></script>
+    <script src="~/Scripts/jquery.scrollex.min.js"></script>
+    <script src="~/Scripts/skel.min.js"></script>
+    <script src="~/Scripts/util.js"></script>
+    <script src="~/Scripts/main.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+@*<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -39,4 +184,4 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
-</html>
+</html>*@
