@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrEOnline.Tests", "MrEOnlin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAC", "DAC\DAC.csproj", "{A96DC435-6E64-42B0-BECB-4F0C13133D64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{737A0527-625A-4858-ADE7-60568F68FB7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{B5109A9B-F755-4D0C-A4CD-BF8520401D9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{A96DC435-6E64-42B0-BECB-4F0C13133D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A96DC435-6E64-42B0-BECB-4F0C13133D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A96DC435-6E64-42B0-BECB-4F0C13133D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737A0527-625A-4858-ADE7-60568F68FB7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737A0527-625A-4858-ADE7-60568F68FB7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737A0527-625A-4858-ADE7-60568F68FB7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737A0527-625A-4858-ADE7-60568F68FB7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5109A9B-F755-4D0C-A4CD-BF8520401D9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5109A9B-F755-4D0C-A4CD-BF8520401D9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5109A9B-F755-4D0C-A4CD-BF8520401D9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5109A9B-F755-4D0C-A4CD-BF8520401D9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

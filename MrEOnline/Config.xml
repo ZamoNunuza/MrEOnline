@@ -6,4 +6,5 @@
   <gDBPassword></gDBPassword>
   <gDBAuthType>WA</gDBAuthType>
   <gDBTimeout>0</gDBTimeout>
+  
 </Root>

@@ -5,34 +5,138 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $('#btnGetStarted').on('click', function () {
+            $('#btnGetStarted').on('click', function (e) {
+                e.preventDefault();
                 $('#login').show();
                 $('#banner').hide();
             });
+            $('#btnLogin').on('click', function (e) {
+                e.preventDefault();
+                var userUserName = $('#txtUserName').val();
+                var userPassword = $('#txtPassword').val();
+                
+
+                if ($("#demo-copy").is(':checked')) {
+                   
+                } else {
+                    
+                }
+
+            });
+            $('#btnRegister').on('click', function (e) {
+                e.preventDefault();
+                $('#login').hide();
+                $('#banner').hide();
+                $('#registration').show();
+
+
+            });
+            $('#btnBackHome').on('click', function (e) {
+                e.preventDefault();
+                $('#login').show();
+                $('#banner').hide();
+                $('#registration').hide();
+            });
+
+            //Registration Customer Insert
+            $('#btnAddCustomer').on('click', function (e) {
+                e.preventDefault();
+                //$('#btnAddCustomer').button('loading');
+                RegistrationInsert();
+
+            })
 
         });
+
+        function RegistrationInsert() {
+
+            var customerName = $('#txtCustomerName').val();
+            var Address = $('#txtAddress').val();
+            var PhoneNumber = $('#txtPhoneNumber').val();
+            var Password = $('#txtregPassword').val();
+            var EmailAddress = $('#txtEmaiAddress').val();
+
+            var url = '/Home/RegistrationInsert'
+
+            $.ajax({
+                type: 'POST',
+                url: "/Home/RegistrationInsert",
+                data: {
+                    'customerName': customerName,
+                    'address': Address,
+                    'phoneNumber': PhoneNumber,
+                    'password': Password,
+                    'emailAddress': EmailAddress
+                },
+                dataType: 'json',
+                success: function (result) {
+                    debugger;
+                    var Exist = _.map(result, i => _.pick(i, 'Exist'))
+                   var exist = Exist[0].Exist
+                    var CustomerID = _.map(result, i => _.pick(i, 'CutomerID'))
+                    var selectedCustomerID 
+                    selectedCustomer = CustomerID[0].CustomerID
+
+                    var Result = _.map(result, i => _.pick(i, 'result'))
+                    var result = Result[0].result
+
+
+
+                    if (exist == "this record already exists") {
+                        swal({
+                            title: 'Error!',
+                            text: 'User already exists.',
+                            type: 'error',
+                            confirmButtonText: 'Ok'
+                        })
+                        return false;
+                    }
+                    if (result == "success") {
+                        swal({
+                            title: 'Success!',
+                            text: 'Registration was successfully.',
+                            type: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                    }
+                },
+                error: function (request, error) {
+                    swal.closeModal();
+
+                    console.log('xhr:' + xhr + ', ' + 'textStatus:' + textStatus + ', ' + 'error: ' + error);
+                    swal({
+                        title: 'Error!',
+                        //html: '[[[Something went wrong. Please contact support at: ]]]<a runat="server" target="_blank" href="https://www.signflow.co.za/support.php">https://www.signflow.co.za/support.php</a>',
+                        type: 'error',
+                        confirmButtonText: 'Ok'
+                    })
+                    return false;
+                    $('#btnRegister').button('reset');
+
+                }
+            });
+
+        }
     </script>
     
     }
     
-<section id="banner" data-video="~/images/186120-OX1QLI-828.jpg">
+<section id="banner" >
     <div class="inner">
         <h1>Mr. E Online Rental</h1>
         <p>
             Welcome to Mr. E Online Rental<br />
             Where you can do video rentals online.
         </p>
-        <a href="#one" class="button special scrolly" id="btnGetStarted">Get Started</a>
+        <button class="button special" id="btnGetStarted">Get Started</button>
+
     </div>
 </section>
-<!-- One -->
+<!-- Login -->
 <section id="login" class="wrapper style2" style="display:none;">
         <div class="inner">
             <div>
                 <div class="box">
-                    @*<div class="image fit">
-                        <img src="images/pic01.jpg" alt="" />
-                    </div>*@
                     <div class="content">
                         <form method="post">
                             <header class="align-center">
@@ -45,12 +149,16 @@
                                 <div class="6u 12u$(xsmall)">
                                     <input type="password" name="Username" id="txtPassword" placeholder="password" />
                                 </div>
+                                <div class="6u 12u$(small) pull-left">
+                                    <input type="checkbox" id="demo-copy" name="demo-copy">
+                                    <label for="demo-copy">Admin</label>
+                                </div>
                             </div>
                             <div class="12u$" style="margin-top: 10px">
                                 <ul class="actions">
-                                    <li><a  value="Login" class="button special icon fa-sign-in">Login</a></li>
-                                    <li><input type="submit" value="Register" class="alt" /></li>
-                                    <li><input type="submit" value="Cancel"/></li>
+                                    <li><a  value="Login" class="button special icon fa-sign-in" id="btnLogin">Login</a></li>
+                                    <li><input type="submit" value="Register" class="alt" id="btnRegister" /></li>
+                                    <li>@Html.ActionLink("Cancel", "Index", "Home")</li>
                                 </ul>
                             </div>
                         </form>
@@ -58,4 +166,53 @@
                 </div>
             </div>
         </div>
-    </section>
+</section>
+<!--Registration-->
+<section id="registration" class="wrapper style2" style="display:none;">
+    <div class="inner">
+        <div>
+            <div class="box">
+                @*<div class="image fit">
+                        <img src="images/pic01.jpg" alt="" />
+                    </div>*@
+                <div class="content">
+                    <form method="post">
+                        <header class="align-center">
+                            <h3><i class="fas fa-sign-in-alt">Registration</i></h3>
+                        </header>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" name="CustomerName" id="txtCustomerName" placeholder="Name" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" name="Address" id="txtAddress" placeholder="Physical Address" />
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" name="PhoneNumber" id="txtPhoneNumber" placeholder="Phone Number" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="email" name="EmailAddress" id="txtEmaiAddress" placeholder="Email Address" />
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="password" name="Pasword" id="txtregPassword" placeholder="Password" />
+                            </div>
+                        </div>
+                        
+                        <div class="12u$" style="margin-top: 10px">
+                            <ul class="actions">
+                                <li><button type="submit" value="Register" class="alt" id="btnAddCustomer">Register</button></li>
+                                @*<li><input type="submit" value="Register" class="alt" id="btnAddCustomer" /></li>*@
+                                <li><input type="submit" value="Cancel" id="btnBackHome" /></li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
