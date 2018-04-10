@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "AdminDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .LabelIcons {
+        color: white;
+        font-family: Abril Fatface;
+    }
+
+    #main-block .Icons {
+        width: 144px;
+        height: 144px;
+        line-height: 144px;
+        border: 4px solid #fff;
+        -webkit-border-radius: 144px;
+        border-radius: 14px;
+        text-align: center;
+        display: block;
+        margin: 0 auto 35px;
+        font-size: 80px;
+        text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        box-shadow: 3px 3px 0 rgba(0,0,0,0.2)
+    }
+
+    /*#main-block h2 {
+        margin-bottom: 25px;
+        font-size: 36px;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }*/
+    #main-block .Icons {
+        width: 144px;
+        height: 144px;
+        line-height: 144px;
+        border: 4px solid #000;
+        -webkit-border-radius: 144px;
+        border-radius: 14px;
+        text-align: center;
+        display: block;
+        margin: 0 auto 35px;
+        font-size: 80px;
+        text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    }
+
+    .LabelIcons {
+        text-align: center;
+        color: white;
+        font-family: Abril Fatface;
+    }
+
+    #main-block .span4:hover, #main-block .span4:hover .Icons {
+        cursor: pointer;
+    }
+
+    #main-block section:hover .Icons {
+        background: #fff;
+        color: #3B73B8 !important;
+    }
+</style>
+<header id="header">
+    <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+    <a href="#menu" class="toggle"><span>Menu</span></a>
+</header>
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div class="box">
+            <div class="content">
+                <header class="align-center">
+                    <h2>Admin Dashboard</h2>
+                </header>
+                <div class="row uniform">
+                    <div id="main-block" class="container 4u 12u$(xsmall)">
+                        <div class="MainDiv">
+                            <section class="span4">
+                                <i class="Icons fa fa-5x far fa-forward"></i>
+                                <h2 class="LabelIcons">Video Administration</h2>
+                            </section>
+                        </div>
+                    </div>
+                    <div id="main-block" class="container 4u 12u$(xsmall)">
+                        <div class="MainDiv">
+                            <section class="span4">
+                                <i class="Icons fa fa-5x fa-users"></i>
+                                <h2 class="LabelIcons">Customer Administration</h2>
+                            </section>
+                        </div>
+                    </div>
+                    <div id="main-block" class="container 4u 12u$(xsmall)">
+                        <div class="MainDiv">
+                            <section class="span4">
+                                <i class="Icons fa fa-5x fa-file"></i>
+                                <h2 class="LabelIcons">Report</h2>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="6u 12u$(xsmall)">
+                        <label>Upload video list</label>
+                        <input type="file" name="files" id="UplFile" accept=".csv" />
+                        <button class="button alt" id="btnUplaod">Upload</button>
+                    </div>
+                    <div class="8u 12u$(xsmall)">
+                        <button id="btnAddUserAdmin">Add User Admin</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

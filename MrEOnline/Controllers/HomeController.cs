@@ -12,25 +12,33 @@ namespace MrEOnline.Controllers
     {
         public ActionResult Index()
         {
+            
             return View();
         }
-
+        //Resgistration Insert for the Customer
         public ActionResult RegistrationInsert(string customerName, string address, string phoneNumber, string password, string emailAddress)
         {
             CoreRegistrationInsert core = new CoreRegistrationInsert();
-            return Json(core.InsertCustomer(customerName,address,phoneNumber,password,emailAddress), JsonRequestBehavior.AllowGet);
+            return Json(core.InsertCustomer(customerName, address, phoneNumber, password, emailAddress), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult About()
+        //Getting infomation and CustomerID once that user logs in
+        public ActionResult CustomerByUserName(string Username)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+           
+            CoreCustomerGetByUsername core = new CoreCustomerGetByUsername();
+            return Json(core.GetCustomerUserName(Username), JsonRequestBehavior.AllowGet);
+        }
+        //getting information of Mr. E Online's administration
+        public ActionResult AdminByUserName(string userName)
+        {
+            CoreAdminGetByUsername core = new CoreAdminGetByUsername();
+            return Json(core.GetAdminUserName(userName), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Contact()
+        public ActionResult AdminDashboard(string Username)
         {
-            ViewBag.Message = "Your contact page.";
-
+            ViewBag.RemoveSelectedTitle = "Zamo";
+            ViewBag.RemoveSelectedactionName = "AdminDashboard";
             return View();
         }
     }
