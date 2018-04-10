@@ -12,7 +12,8 @@ namespace MrEOnline.Controllers
     {
         public ActionResult Index()
         {
-            
+            ViewBag.RemoveSelectedTitle = "User";
+            ViewBag.RemoveSelectedactionName = "User";
             return View();
         }
         //Resgistration Insert for the Customer
@@ -37,8 +38,8 @@ namespace MrEOnline.Controllers
 
         public ActionResult AdminDashboard(string Username)
         {
-            ViewBag.RemoveSelectedTitle = "Zamo";
-            ViewBag.RemoveSelectedactionName = "AdminDashboard";
+            ViewBag.RemoveSelectedTitle = "User";
+            ViewBag.RemoveSelectedactionName = Username;
             return View();
         }
     }

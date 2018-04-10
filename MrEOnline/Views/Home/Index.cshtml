@@ -140,6 +140,11 @@
                 url: url,
                 dataType: 'json',
                 success: function (result) {
+                    debugger;
+                    var EmailAddress = _.map(result, i => _.pick(i, 0))
+                    var emailAddress = EmailAddress
+                    var url = '/Index/AdminDashboard?GroupID=' + groupID;
+                    window.open(url, '_self')
 
                 }
 
@@ -168,6 +173,10 @@
     </header>
     <!-- Login -->
     <section id="login" class="wrapper style2" style="display:none;">
+        <header id="header">
+            <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+            <a href="#menu" class="toggle"><span>Menu</span></a>
+        </header>
         <div class="inner">
             <div>
                 <div class="box">
@@ -203,12 +212,16 @@
     </section>
     <!--Registration-->
     <section id="registration" class="wrapper style2" style="display:none;">
+        <header id="header">
+            <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+            <a href="#menu" class="toggle"><span>Menu</span></a>
+        </header>
         <div class="inner">
             <div>
                 <div class="box">
                     @*<div class="image fit">
-                            <img src="images/pic01.jpg" alt="" />
-                        </div>*@
+                        <img src="images/pic01.jpg" alt="" />
+                    </div>*@
                     <div class="content">
                         <form method="post">
                             <header class="align-center">

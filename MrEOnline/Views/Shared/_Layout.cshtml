@@ -20,7 +20,7 @@
     <nav id="menu">
 
         <ul class="links">
-            <li><i class="icon fa fa-user"></i>@Html.ActionLink((string)ViewBag.RemoveSelectedTitle, (string)ViewBag.RemoveSelectedactionName, "Home", new { @class = "fa fa-user" })</li>
+            <li><i class="icon fa fa-user"></i>@Html.Label((string)ViewBag.RemoveSelectedTitle, (string)ViewBag.RemoveSelectedactionName, new { @class = "fa fa-user" })</li>
 
             <li>@Html.ActionLink("Home", "Index", "Home")</li>
             @*<li><a href="generic.html">Generic</a></li>

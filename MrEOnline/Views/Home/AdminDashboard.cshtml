@@ -4,11 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+    /*Style for the Admin Dashbord*/
     .LabelIcons {
         color: white;
         font-family: Abril Fatface;
     }
-
     #main-block .Icons {
         width: 144px;
         height: 144px;
@@ -23,12 +23,6 @@
         text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         box-shadow: 3px 3px 0 rgba(0,0,0,0.2)
     }
-
-    /*#main-block h2 {
-        margin-bottom: 25px;
-        font-size: 36px;
-        text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-    }*/
     #main-block .Icons {
         width: 144px;
         height: 144px;
@@ -43,22 +37,86 @@
         text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
     }
-
     .LabelIcons {
         text-align: center;
         color: white;
         font-family: Abril Fatface;
     }
-
     #main-block .span4:hover, #main-block .span4:hover .Icons {
         cursor: pointer;
     }
-
     #main-block section:hover .Icons {
         background: #fff;
         color: #3B73B8 !important;
     }
+    /*End of ADmin Dashboard*/
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
 </style>
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#btnAddUserAdmin').on('click', function (e) {
+                //e.preventDefault();
+                $("#divAdmin").show();
+            });
+            $('.close').on('click', function (e) {
+                $("#divAdmin").hide();
+            })
+            $('#btnAdminSubmit').on('click', function (e) {
+                e.preventDefault();
+            });
+        })
+        function AdminAdd() {
+            var AdminName = $('#txtAdminName').val();
+            var EmailAddress = $('#txtEmailAddress').val();
+            var Password = $('#txtPassword').val();
+
+
+
+
+        }
+    </script>
+    
+    }
+
+
 <header id="header">
     <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
     <a href="#menu" class="toggle"><span>Menu</span></a>
@@ -102,6 +160,29 @@
                     </div>
                     <div class="8u 12u$(xsmall)">
                         <button id="btnAddUserAdmin">Add User Admin</button>
+                    </div>
+                </div>
+                <div id="divAdmin" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h3>Admin Add</h3>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" name="PhoneNumber" id="txtAdminName" placeholder="Name" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="email" name="EmailAddress" id="txtEmailAddress" placeholder="Email Address" />
+                            </div>
+                        </div>
+                        <div class="row uniform">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="password" name="AdminPassword" id="txtPassword" placeholder="Password" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <button id="btnAdminSubmit" class="special">Submit</button>
+                                <button id="btnCancel" class="alt">Cancel</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
