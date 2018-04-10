@@ -126,7 +126,12 @@
                 url: url,
                 dataType: 'json',
                 success: function (result) {
+                    var UserInfo = result.GetCustomerByUsername
+                    //var notpermitted = UserInfo[0].NotPermitted
 
+                    //if (notpermitted == "NotPermitted") {
+
+                    //}
                 }
 
             });
@@ -140,10 +145,9 @@
                 url: url,
                 dataType: 'json',
                 success: function (result) {
-                    debugger;
-                    var EmailAddress = _.map(result, i => _.pick(i, 0))
-                    var emailAddress = EmailAddress
-                    var url = '/Index/AdminDashboard?GroupID=' + groupID;
+                    var EmailAddress = result.GetAdminByUserName
+                    var username = EmailAddress[0].EmailAddress
+                    var url = '/Home/AdminDashboard?userName=' + username;
                     window.open(url, '_self')
 
                 }

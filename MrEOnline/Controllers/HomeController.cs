@@ -42,5 +42,10 @@ namespace MrEOnline.Controllers
             ViewBag.RemoveSelectedactionName = Username;
             return View();
         }
+        public ActionResult AdminInsert(string AdminName, string EmailAddress, string AdminPassword)
+        {
+            CoreAdminInsert core = new CoreAdminInsert();
+            return Json(core.InsertAdmin(AdminName,EmailAddress,AdminPassword),JsonRequestBehavior.AllowGet);
+        }
     }
 }

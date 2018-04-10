@@ -18,7 +18,7 @@ namespace DAC.StoredProcedure
             using (IDbConnection connection = new SqlConnection(constants.connectionString))
             {
                 const string storedProcedure = "dbo.Customer_GetBy_Username";
-                return (List<CustomerGetbyUsername>)connection.Query<CustomerGetbyUsername>(storedProcedure, new { Useranme = Username }, commandType: CommandType.StoredProcedure);
+                return (List<CustomerGetbyUsername>)connection.Query<CustomerGetbyUsername>(storedProcedure, new { Username = Username }, commandType: CommandType.StoredProcedure);
             }
         }
     }

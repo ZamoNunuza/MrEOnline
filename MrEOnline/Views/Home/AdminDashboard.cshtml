@@ -92,6 +92,13 @@
 
     <script>
         $(document).ready(function () {
+            //this piece of jQuery is to clear the URL
+            var uri = window.location.toString();
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
+
             $('#btnAddUserAdmin').on('click', function (e) {
                 //e.preventDefault();
                 $("#divAdmin").show();
@@ -108,7 +115,31 @@
             var EmailAddress = $('#txtEmailAddress').val();
             var Password = $('#txtPassword').val();
 
+            
+            $.ajax({
+                type: 'POST',
+                url: "/Home/AdminInsert",
+                data: {
+                    'AdminName': AdminName,
+                    'EmailAddress': EmailAddress,
+                    'AdminPassword': Password
+                },
+                dataType: 'json',
+                success: function (result) {
 
+                    var Result = _.map(result, i => _.pick(i, 'result'))
+                    var result = Result[0].result
+                    if (result == "success") {
+                        swal({
+                            title: 'Success!',
+                            text: 'Admin insert was successfully.',
+                            type: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                    }
+                }
+
+            });
 
 
         }

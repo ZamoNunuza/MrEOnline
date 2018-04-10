@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreAdminGetByUsername.cs" />
+    <Compile Include="CoreAdminInsert.cs" />
     <Compile Include="CoreCustomerGetByUsername.cs" />
     <Compile Include="CoreRegistrationInsert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
