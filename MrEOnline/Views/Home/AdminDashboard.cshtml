@@ -102,29 +102,32 @@
 </style>
 
 @section Scripts{
-    <script src="~/Scripts/js/jquery-1.12.4.js"></script>
+    @*<script src="~/Scripts/js/jquery-1.12.4.js"></script>*@
     <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/js/dataTables.buttons.min.js"></script>
-    <script src="~/Scripts/js/dataTables.select.min.js"></script>
-    <script src="~/Scripts/js/dataTables.editor.min.js"></script>
+    @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
+    @*<script src="~/Scripts/js/dataTables.select.min.js"></script>*@
+    @*<script src="~/Scripts/js/dataTables.editor.min.js"></script>*@
     <script>
         $(document).ready(function () {
             var url = window.location.href;
             var UserName = getQueryString('userName', url);
             //this piece of jQuery is to clear the URL
-            var uri = window.location.toString();
-            if (uri.indexOf("?") > 0) {
-                var clean_uri = uri.substring(0, uri.indexOf("?"));
-                window.history.replaceState({}, document.title, clean_uri);
-            }
+            //var uri = window.location.toString();
+            //if (uri.indexOf("?") > 0) {
+            //    var clean_uri = uri.substring(0, uri.indexOf("?"));
+            //    window.history.replaceState({}, document.title, clean_uri);
+            //}
             $('#gvAllVideos').DataTable();
             
             $('#btnAddUserAdmin').on('click', function (e) {
                 //e.preventDefault();
-                ViewVideoTable();
-               // $("#divAdmin").show();
+
+               $("#divAdmin").show();
             });
             $('.close').on('click', function (e) {
+                $("#divAdmin").hide();
+            })
+            $('#btnCancel').click(function () {
                 $("#divAdmin").hide();
             })
             $('#btnAdminSubmit').on('click', function (e) {
@@ -132,7 +135,7 @@
             });
             $('#btnUplaod').on('click', function (e) {
                 e.preventDefault();
-                debugger;
+                
                 var filePath = $('#txtFilepath').val();
 
                 var fileUpload = $("#UplFile").get(0);
@@ -155,8 +158,18 @@
                     processData: false,
                     data: uploadFile,
                     type: 'POST',
-                    success: function () {
-                        alert("Successfully Added & processed");
+                    success: function (result) {
+                        debugger;
+                        
+                        if (result == "File Uploaded Successfully!") {
+                            swal({
+                                title: 'Success!',
+                                text: 'File Uploaded Successfully!.',
+                                type: 'success',
+                                confirmButtonText: 'Ok'
+                            })
+                        }
+                        
                     }
                 });
                 //}
@@ -199,9 +212,10 @@
         }
         //this is a function to populate the video table for viewing
         function ViewVideoTable() {
+            //$('#divVideoAdmin').show();
             var url = window.location.href;
             var UserName = getQueryString('userName', url);
-            var url = '/Home/GetAllVideo';
+            var url = '/Home/ListofVideos?status=' + '1';
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -209,7 +223,7 @@
                 dataType: 'json',
                 success: function (result) {
                     var data = result.GetAllVideos;
-
+                    console.log(result)
                     var table = $('#gvAllVideos');
                     table.DataTable({
                         response: true,
@@ -292,7 +306,7 @@
                         <button class="button alt" id="btnUplaod">Upload</button>
                     </div>
                     <div class="8u 12u$(xsmall)">
-                        <button id="btnAddUserAdmin">Add User Admin</button>
+                        <button id="btnAddUserAdmin"  type="button" data-loading-text="Loading... ">Add User Admin</button>
                     </div>
                 </div>
                 @*this is the Admin Add Page*@
@@ -320,7 +334,7 @@
                     </div>
                 </div>
             </div>
-            <div class="content" id="divVideoAdmin">
+            <div class="content" id="divVideoAdmin" style="display:none">
                 <header class="align-center">
                     <h2>Video Administration</h2>
                 </header>

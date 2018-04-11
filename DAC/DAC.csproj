@@ -47,8 +47,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoredProcedure\AdminGetByUsername.cs" />
     <Compile Include="StoredProcedure\AdminInsert.cs" />
+    <Compile Include="StoredProcedure\CustomerGetAll.cs" />
     <Compile Include="StoredProcedure\CustomerGetByUsername.cs" />
     <Compile Include="StoredProcedure\Registration.cs" />
+    <Compile Include="StoredProcedure\VideoGetAll.cs" />
     <Compile Include="StoredProcedure\VideoListAdd.cs" />
   </ItemGroup>
   <ItemGroup>

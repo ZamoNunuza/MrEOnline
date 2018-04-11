@@ -5,15 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ViewModel;
+
 
 namespace MrEOnline.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult ListofVideos(string status)
+        {
+            CoreVideoLists core = new CoreVideoLists();
+            var list = core.VideoView(status);
+            return Json(list,JsonRequestBehavior.AllowGet );
+        }
         public ActionResult Index()
         {
             ViewBag.RemoveSelectedTitle = "User";
@@ -65,7 +70,7 @@ namespace MrEOnline.Controllers
                         string fileName;
 
                         fileName = file.FileName;
-                        
+
                         fileName = Path.Combine(filePath, fileName);
 
                         List<VideoInfo> uploadModelList = new List<VideoInfo>();
@@ -125,46 +130,20 @@ namespace MrEOnline.Controllers
                             con.Close();
                         }
                     }
-                    return Json(null);
+                    return Json("File Uploaded Successfully!");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
-                    throw;
+                    return Json("Error occurred. Error details: " + ex.Message);
                 }
             }
-            //var attachedFile = System.Web.HttpContext.Current.Request.Files["uploadFile"];
-            //if (attachedFile == null || attachedFile.ContentLength <= 0) return Json(null);
-            //var csvReader = new StreamReader(attachedFile.InputStream);
-            ////List<VideoInfo> uploadModelList = new List<VideoInfo>();
-            //string inputDataRead;
-            //var values = new List<string>();
-            //while ((inputDataRead = csvReader.ReadLine()) != null)
-            //{
-            //    values.Add(inputDataRead.Trim().Replace(" ", "").Replace(",", " "));
-            //}
-            //values.Remove(values[0]);
-            //values.Remove(values[values.Count - 1]);
-
-            //Constants constants = new Constants();
-            //using (SqlConnection con = new SqlConnection(constants.connectionString))
-            //{
-            //    foreach (var value in values)
-            //    {
-            //        //VideoInfo uploadModelRecord = new VideoInfo();
-            //        var eachValue = value.Split(' ');
-            //        uploadModelRecord.Title = eachValue[0] != "" ? eachValue[0] : string.Empty;
-            //        uploadModelRecord.Description = eachValue[1] != "" ? eachValue[1] : string.Empty;
-            //        uploadModelRecord.Genre = eachValue[2] != "" ? eachValue[2] : string.Empty;
-            //        uploadModelRecord.RentalPrice = eachValue[3] != "" ? eachValue[3] : string.Empty;
-
-            //        uploadModelList.Add(uploadModelRecord);// newModel needs to be an object of type ContextTables.
-            //        con.Close();
-            //    }
-            //    //con.SaveChanges()
-            //}
-            return Json(null);
+            return Json("No files selected.");
         }
-
+        public ActionResult AllCustomers()
+        {
+            CoreGetCustomersAll core = new CoreGetCustomersAll();
+            return Json(core.getAllcustomers(), JsonRequestBehavior.AllowGet);
+        }
     }
 }

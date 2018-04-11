@@ -119,7 +119,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="ViewModel">
-      <HintPath>..\DAC\bin\Debug\ViewModel.dll</HintPath>
+      <HintPath>..\ViewModel\bin\Debug\ViewModel.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -167,6 +167,8 @@
     <Compile Include="Models\AddVideo.cs" />
     <Compile Include="Models\AdminGetbyUsername.cs" />
     <Compile Include="Models\AdministrationInsert.cs" />
+    <Compile Include="Models\AllCustomers.cs" />
+    <Compile Include="Models\AllVideos.cs" />
     <Compile Include="Models\CustomerGetbyUsername.cs" />
     <Compile Include="Models\RegistrationInsert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

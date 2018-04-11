@@ -43,8 +43,10 @@
     <Compile Include="CoreAdminGetByUsername.cs" />
     <Compile Include="CoreAdminInsert.cs" />
     <Compile Include="CoreCustomerGetByUsername.cs" />
+    <Compile Include="CoreGetCustomersAll.cs" />
     <Compile Include="CoreRegistrationInsert.cs" />
     <Compile Include="CoreVideoListAdd.cs" />
+    <Compile Include="CoreVideoLists.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

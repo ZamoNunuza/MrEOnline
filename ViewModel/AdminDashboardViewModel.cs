@@ -11,5 +11,7 @@ namespace ViewModel
     {
         public AdministrationInsert AdminInsert { get; set; }
         public List<AddVideo> VideoListInsert { get; set; }
+        public List<AllVideos> VideoView { get; set; } 
+        public List<AllCustomers> GetAllCustomers { get; set; }
     }
 }
