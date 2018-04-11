@@ -51,6 +51,10 @@
     <Reference Include="Core">
       <HintPath>..\Core\bin\Debug\Core.dll</HintPath>
     </Reference>
+    <Reference Include="DAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\DAC.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
@@ -157,6 +161,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddVideo.cs" />
     <Compile Include="Models\AdminGetbyUsername.cs" />
     <Compile Include="Models\AdministrationInsert.cs" />
     <Compile Include="Models\CustomerGetbyUsername.cs" />

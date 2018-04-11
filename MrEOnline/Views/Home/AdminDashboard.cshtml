@@ -109,6 +109,49 @@
             $('#btnAdminSubmit').on('click', function (e) {
                 e.preventDefault();
             });
+            //("#UplFile").on('change',function () {
+            //    var selectedText = $("#UplFile").val();
+            //    var extension = selectedText.split('.');
+            //    if (extension[1] != "csv") {
+            //        $("#UplFile").focus();
+            //        alert("Please choose a .csv file");
+            //        return;
+            //    }
+            //    //$("#UplFile").val(selectedText);
+
+            //});
+            $('#btnUplaod').on('click', function (e) {
+                e.preventDefault();
+                debugger;
+                var filePath = $('#txtFilepath').val();
+
+                var fileUpload = $("#UplFile").get(0);
+               // if (fileUpload.value != null) {
+                var files = fileUpload.files;
+                    var uploadFile = new FormData();
+                    
+
+                    //var uploadfiles = 
+                    for (var i = 0; i < files.length; i++) {
+                        filename = files[i].name;
+                        uploadFile.append(files[i].name, files[i]);
+                    }
+                    // Add the uploaded file content to the form data collection
+                    //if (files.length > 0) {
+                        //uploadFile.append("Movie_Information.csv", files[0]);
+                        $.ajax({
+                            url: "/Home/UploadCsvFile?filePath=" + filePath,
+                            contentType: false,
+                            processData: false,
+                            data: uploadFile,
+                            type: 'POST',
+                            success: function () {
+                                alert("Successfully Added & processed");
+                            }
+                        });
+                    //}
+               // }
+            })
         })
         function AdminAdd() {
             var AdminName = $('#txtAdminName').val();
@@ -153,6 +196,7 @@
     <a href="#menu" class="toggle"><span>Menu</span></a>
 </header>
 <section id="one" class="wrapper style2">
+     
     <div class="inner">
         <div class="box">
             <div class="content">
@@ -187,12 +231,14 @@
                     <div class="6u 12u$(xsmall)">
                         <label>Upload video list</label>
                         <input type="file" name="files" id="UplFile" accept=".csv" />
+                        <input type="text" placeholder="please provide the file path" id="txtFilepath"/>
                         <button class="button alt" id="btnUplaod">Upload</button>
                     </div>
                     <div class="8u 12u$(xsmall)">
                         <button id="btnAddUserAdmin">Add User Admin</button>
                     </div>
                 </div>
+                @*this is the Admin Add Page*@
                 <div id="divAdmin" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>

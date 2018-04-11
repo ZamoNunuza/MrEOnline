@@ -44,6 +44,7 @@
     <Compile Include="CoreAdminInsert.cs" />
     <Compile Include="CoreCustomerGetByUsername.cs" />
     <Compile Include="CoreRegistrationInsert.cs" />
+    <Compile Include="CoreVideoListAdd.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

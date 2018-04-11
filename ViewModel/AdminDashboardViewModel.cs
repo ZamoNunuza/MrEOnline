@@ -10,5 +10,6 @@ namespace ViewModel
     public class AdminDashboardViewModel
     {
         public AdministrationInsert AdminInsert { get; set; }
+        public List<AddVideo> VideoListInsert { get; set; }
     }
 }
