@@ -3,12 +3,20 @@
     ViewBag.Title = "AdminDashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Style{
+    <link href="~/Content/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/editor.dataTables.min.css" rel="stylesheet" />
+}
+
 <style>
     /*Style for the Admin Dashbord*/
     .LabelIcons {
         color: white;
         font-family: Abril Fatface;
     }
+
     #main-block .Icons {
         width: 144px;
         height: 144px;
@@ -23,6 +31,7 @@
         text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         box-shadow: 3px 3px 0 rgba(0,0,0,0.2)
     }
+
     #main-block .Icons {
         width: 144px;
         height: 144px;
@@ -37,14 +46,17 @@
         text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
     }
+
     .LabelIcons {
         text-align: center;
         color: white;
         font-family: Abril Fatface;
     }
+
     #main-block .span4:hover, #main-block .span4:hover .Icons {
         cursor: pointer;
     }
+
     #main-block section:hover .Icons {
         background: #fff;
         color: #3B73B8 !important;
@@ -88,20 +100,29 @@
             cursor: pointer;
         }
 </style>
-@section Scripts{
 
+@section Scripts{
+    <script src="~/Scripts/js/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/js/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/js/dataTables.select.min.js"></script>
+    <script src="~/Scripts/js/dataTables.editor.min.js"></script>
     <script>
         $(document).ready(function () {
+            var url = window.location.href;
+            var UserName = getQueryString('userName', url);
             //this piece of jQuery is to clear the URL
             var uri = window.location.toString();
             if (uri.indexOf("?") > 0) {
                 var clean_uri = uri.substring(0, uri.indexOf("?"));
                 window.history.replaceState({}, document.title, clean_uri);
             }
-
+            $('#gvAllVideos').DataTable();
+            
             $('#btnAddUserAdmin').on('click', function (e) {
                 //e.preventDefault();
-                $("#divAdmin").show();
+                ViewVideoTable();
+               // $("#divAdmin").show();
             });
             $('.close').on('click', function (e) {
                 $("#divAdmin").hide();
@@ -109,56 +130,46 @@
             $('#btnAdminSubmit').on('click', function (e) {
                 e.preventDefault();
             });
-            //("#UplFile").on('change',function () {
-            //    var selectedText = $("#UplFile").val();
-            //    var extension = selectedText.split('.');
-            //    if (extension[1] != "csv") {
-            //        $("#UplFile").focus();
-            //        alert("Please choose a .csv file");
-            //        return;
-            //    }
-            //    //$("#UplFile").val(selectedText);
-
-            //});
             $('#btnUplaod').on('click', function (e) {
                 e.preventDefault();
                 debugger;
                 var filePath = $('#txtFilepath').val();
 
                 var fileUpload = $("#UplFile").get(0);
-               // if (fileUpload.value != null) {
+                // if (fileUpload.value != null) {
                 var files = fileUpload.files;
-                    var uploadFile = new FormData();
-                    
+                var uploadFile = new FormData();
 
-                    //var uploadfiles = 
-                    for (var i = 0; i < files.length; i++) {
-                        filename = files[i].name;
-                        uploadFile.append(files[i].name, files[i]);
+
+                //var uploadfiles =
+                for (var i = 0; i < files.length; i++) {
+                    filename = files[i].name;
+                    uploadFile.append(files[i].name, files[i]);
+                }
+                // Add the uploaded file content to the form data collection
+                //if (files.length > 0) {
+                //uploadFile.append("Movie_Information.csv", files[0]);
+                $.ajax({
+                    url: "/Home/UploadCsvFile?filePath=" + filePath + '&UserID=' + UserName,
+                    contentType: false,
+                    processData: false,
+                    data: uploadFile,
+                    type: 'POST',
+                    success: function () {
+                        alert("Successfully Added & processed");
                     }
-                    // Add the uploaded file content to the form data collection
-                    //if (files.length > 0) {
-                        //uploadFile.append("Movie_Information.csv", files[0]);
-                        $.ajax({
-                            url: "/Home/UploadCsvFile?filePath=" + filePath,
-                            contentType: false,
-                            processData: false,
-                            data: uploadFile,
-                            type: 'POST',
-                            success: function () {
-                                alert("Successfully Added & processed");
-                            }
-                        });
-                    //}
-               // }
+                });
+                //}
+                // }
             })
         })
+        //this is a function to add admin users
         function AdminAdd() {
             var AdminName = $('#txtAdminName').val();
             var EmailAddress = $('#txtEmailAddress').val();
             var Password = $('#txtPassword').val();
 
-            
+
             $.ajax({
                 type: 'POST',
                 url: "/Home/AdminInsert",
@@ -186,9 +197,55 @@
 
 
         }
+        //this is a function to populate the video table for viewing
+        function ViewVideoTable() {
+            var url = window.location.href;
+            var UserName = getQueryString('userName', url);
+            var url = '/Home/GetAllVideo';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    var data = result.GetAllVideos;
+
+                    var table = $('#gvAllVideos');
+                    table.DataTable({
+                        response: true,
+                        data: data,
+                        columns: [
+                            { data: "VideoID" },
+                            { data: "Title" },
+                            { data: "Description" },
+                            { data: "Genre" },
+                            { data: "RentalPrice" },
+                            { data: "StatusName"}
+
+
+                        ],
+                        select: true,
+                        buttons: [
+                            { extend: "create", editor: editor },
+                            { extend: "edit", editor: editor },
+                            { extend: "remove", editor: editor }
+                        ]
+
+                    })
+                }
+            })
+
+        }
+
+        var getQueryString = function (field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        };
     </script>
-    
-    }
+
+}
 
 
 <header id="header">
@@ -196,7 +253,7 @@
     <a href="#menu" class="toggle"><span>Menu</span></a>
 </header>
 <section id="one" class="wrapper style2">
-     
+
     <div class="inner">
         <div class="box">
             <div class="content">
@@ -231,7 +288,7 @@
                     <div class="6u 12u$(xsmall)">
                         <label>Upload video list</label>
                         <input type="file" name="files" id="UplFile" accept=".csv" />
-                        <input type="text" placeholder="please provide the file path" id="txtFilepath"/>
+                        <input type="text" placeholder="please provide the file path" id="txtFilepath" />
                         <button class="button alt" id="btnUplaod">Upload</button>
                     </div>
                     <div class="8u 12u$(xsmall)">
@@ -261,6 +318,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="content" id="divVideoAdmin">
+                <header class="align-center">
+                    <h2>Video Administration</h2>
+                </header>
+                <div class="">
+                    <table id="gvAllVideos" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Video ID</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Rental Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>

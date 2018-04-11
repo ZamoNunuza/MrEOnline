@@ -48,6 +48,7 @@
     <Compile Include="StoredProcedure\AdminGetByUsername.cs" />
     <Compile Include="StoredProcedure\AdminInsert.cs" />
     <Compile Include="StoredProcedure\CustomerGetByUsername.cs" />
+    <Compile Include="StoredProcedure\GetVideoList.cs" />
     <Compile Include="StoredProcedure\Registration.cs" />
     <Compile Include="StoredProcedure\VideoListAdd.cs" />
   </ItemGroup>
