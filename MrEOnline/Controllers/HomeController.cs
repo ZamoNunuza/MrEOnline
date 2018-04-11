@@ -20,14 +20,6 @@ namespace MrEOnline.Controllers
             ViewBag.RemoveSelectedactionName = "User";
             return View();
         }
-        //this method is to get all videos to be displayed in the front-end
-        public ActionResult GetAllVideo()
-        {
-            CoreGetAllVideoList core = new CoreGetAllVideoList();
-
-            core.GetListVideo();
-            return View();
-        }
         //Resgistration Insert for the Customer
         public ActionResult RegistrationInsert(string customerName, string address, string phoneNumber, string password, string emailAddress)
         {

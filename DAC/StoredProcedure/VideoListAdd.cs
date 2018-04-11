@@ -18,7 +18,7 @@ namespace DAC.StoredProcedure
             using (IDbConnection connection = new SqlConnection(Constants.connectionString))
             {
                 const string storedProcedure = "dbo.Video_List_Add";
-                return (List<AddVideo>)connection.Query<AddVideo>(storedProcedure, new { Title = Title, Description = Description, Genre = Genre, RentalPrice = RentalPrice}, commandType: CommandType.StoredProcedure);
+                return (List<AddVideo>)connection.Query<AddVideo>(storedProcedure, new { Title = Title, Description = Description, Genre = Genre, RentalPrice = RentalPrice }, commandType: CommandType.StoredProcedure);
             }
 
         }
