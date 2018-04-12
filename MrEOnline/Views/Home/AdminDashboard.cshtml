@@ -112,12 +112,15 @@
     <script src="~/Scripts/js/dataTables.responsive.min.js"></script>
     <script src="~/Scripts/js/dataTables.editor.min.js"></script>
     <script src="~/Scripts/js/datatables.js"></script>
+
     <script>
         $(document).ready(function () {
-
-
+            //alert('<%=ViewBag.Message%>');
+            
             //this piece of jQuery is to clear the URL
             var uri = window.location.toString();
+            var username = getQueryString('Username', uri);
+            console.log(username)
             if (uri.indexOf("?") > 0) {
                 var clean_uri = uri.substring(0, uri.indexOf("?"));
                 window.history.replaceState({}, document.title, clean_uri);
@@ -221,28 +224,29 @@
                     contentType: 'application/json',
                     dataType: 'json',
                     success: function (result) {
+                        $('#btnShowVideo').show();
                         ViewVideoTable();
                     }
                 });
-                
-            })
 
+            })
+            //Update video
+            $('#btnSubmitEditVideo').on('click', function (e) {
+                e.preventDefault();
+                UpdateVideo();
+            })
+            
+
+            //redirect to customer Admin
+            $('#divCustomerAdmin').on('click', function (e) {
+                var url = window.location.href;
+               
+                var url = '/Home/CustomerAdministration?userName=' + username;
+                window.open(url, '_self')
+
+            });
 
         })
-        function ViewCustomerTable() {
-            $.ajax({
-                type: 'POST',
-                url: '/Home/AllCustomers',
-                contentType: 'application/json',
-                dataType: 'json',
-                success: function (result) {
-                    console.log(result)
-
-
-                }
-            })
-
-        }
         //this is a function to add admin users
         function AdminAdd() {
             var AdminName = $('#txtAdminName').val();
@@ -280,12 +284,9 @@
         //this is a function to populate the video table for viewing
         function ViewVideoTable() {
             $('#divVideoGrid').show();
-            $('#gvAllVideos').on('click', 'a.editor_edit', function (e) {
-                e.preventDefault();
-                $('#divVideoEdits').show();
-            });
-            var url = window.location.href;
-            var UserName = getQueryString('userName', url);
+
+            //var url = window.location.href;
+            //var UserName = getQueryString('userName', url);
             var url = '/Home/ListofVideos';
             $.ajax({
                 type: 'POST',
@@ -293,35 +294,35 @@
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (result) {
-                    var data = result.VideoView;
+                    console.log(result)
                     var table = $('#gvAllVideos').DataTable();
                     table.destroy();
                     var table = $('#gvAllVideos');
                     table.DataTable({
                         response: true,
-                        data: data,
+                        "data": result.VideoView,
                         columns: [
-                            { data: "VideoID" },
-                            { data: "Title" },
-                            { data: "Description" },
-                            { data: "Genre" },
-                            { data: "RentalPrice", render: $.fn.dataTable.render.number(',', '.', 0, 'R') },
-                            { data: "StatusName" },
-                            {
-                                data: null,
-                                className: "center",
-                                defaultContent: '<a href="" class="editor_edit button special">Edit</a> '
-                            }
-                            //{ data: null, render: function (data, type, row) { return "<a class='btnEditVideo' data-videoID-attr='" + data.VideoID + "'>Edit</a>"}}
+                            { "data": "VideoID" },
+                            { "data": "Title" },
+                            { "data": "Description" },
+                            { "data": "Genre" },
+                            { "data": "RentalPrice", render: $.fn.dataTable.render.number(',', '.', 0, 'R') },
+                            { "data": "StatusName" },
+                            { data: null, render: function (data, type, row) { return "<a class='btnEditVideo editor_edit button special' data-videoID-attr='" + data.VideoID + "'>Edit</a>" } }
                         ],
                         select: true,
 
                     })
 
+
+
+
+
                 }
             })
 
         }
+        //UPdate Video
         function UpdateVideo() {
             var editID = $("#HFVideoID").val();
             var editTitle = $("#txtEditTitle").val();
@@ -337,10 +338,18 @@
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (result) {
+                    $('#divVideoEdits').hide();
                     ViewVideoTable();
+
+
                 }
 
             });
+        }
+
+        function BacktoDash() {
+            $('#divAdminDashboard').show();
+            $('#divVideoGrid').hide();
         }
         var getQueryString = function (field, url) {
             var href = url ? url : window.location.href;
@@ -375,7 +384,7 @@
                         </div>
                     </div>
                     <div id="main-block" class="container 4u 12u$(xsmall)">
-                        <div class="MainDiv">
+                        <div class="MainDiv" id="divCustomerAdmin">
                             <section class="span4">
                                 <i class="Icons fa fa-5x fa-users"></i>
                                 <h2 class="LabelIcons">Customer Administration</h2>
@@ -433,6 +442,7 @@
                 @*This is to add a new Video*@
                 <div class="">
                     <button class="button alt 8u 12u$(xsmall)" id="btnShowVideo">Add a Video</button>
+                    <button class="button 3u 12u$(xsmall)" id="btnBacktoAdminDash" onclick="BacktoDash()">back to Dashboard</button>
                     <div class="row uniform" style="display:none;margin-top:10px" id="divAddVideo">
                         <div class="6u 12u$(xsmall)">
                             <input type="text" placeholder="Title" id="txtAddTitle" />

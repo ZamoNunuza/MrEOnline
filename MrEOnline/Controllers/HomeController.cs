@@ -34,7 +34,6 @@ namespace MrEOnline.Controllers
         //Getting infomation and CustomerID once that user logs in
         public ActionResult CustomerByUserName(string Username)
         {
-
             CoreCustomerGetByUsername core = new CoreCustomerGetByUsername();
             return Json(core.GetCustomerUserName(Username), JsonRequestBehavior.AllowGet);
         }
@@ -44,14 +43,23 @@ namespace MrEOnline.Controllers
             CoreAdminGetByUsername core = new CoreAdminGetByUsername();
             return Json(core.GetAdminUserName(userName), JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult AdminDashboard(string Username)
+        //Admin Dashboard
+        public ActionResult AdminDashboard(string Username )
         {
-            ViewBag.RemoveSelectedTitle = "User";
-            ViewBag.RemoveSelectedactionName = Username;
-            CoreAdministration core = new CoreAdministration();
-            return View(core.GetStatusDropdown());
+            if (Username is null)
+            {
+                ViewBag.Message = "Please Login in!!";
+                return View();
+            }
+            else {
+                ViewBag.RemoveSelectedTitle = "User";
+                ViewBag.RemoveSelectedactionName = Username;
+                CoreAdministration core = new CoreAdministration();
+                return View(core.GetStatusDropdown());
+            }
+            
         }
+        // Video Administration and Admin Insert
         public ActionResult AdminInsert(string AdminName, string EmailAddress, string AdminPassword)
         {
             CoreAdminInsert core = new CoreAdminInsert();
@@ -156,6 +164,22 @@ namespace MrEOnline.Controllers
             CoreAdministration core = new CoreAdministration();
             return Json(core.GetVideoByID(VideoID),JsonRequestBehavior.AllowGet);
         }
+        //Customer Administration
+        public ActionResult CustomerAdministration(string userName)
+        {
+            if (userName is null)
+            {
+                ViewBag.Message = "Please Login in!!";
+                return View();
+            }
+            else
+            {
+                ViewBag.RemoveSelectedTitle = "User";
+                ViewBag.RemoveSelectedactionName = userName;
+                CoreAdministration core = new CoreAdministration();
+                return View(core.GetStatusDropdown());
+            }
+        }
         public ActionResult AllCustomers()
         {
             CoreGetCustomersAll core = new CoreGetCustomersAll();
@@ -166,11 +190,11 @@ namespace MrEOnline.Controllers
             CoreAdministration core = new CoreAdministration();
             return Json(core.GetCustomerByID(CustomerID),JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult CustomersUpdate(string CustomerID, string CustomerName, string Address, string PhoneNumber, string Password, string EmailAddress, string Status)
         {
             CoreAdministration core = new CoreAdministration();
             return Json(core.UpdateCustomers(CustomerID,CustomerName,Address,PhoneNumber,Password,EmailAddress,Status),JsonRequestBehavior.AllowGet);
         }
+        
     }
 }

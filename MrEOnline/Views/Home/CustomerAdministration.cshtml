@@ -1,0 +1,346 @@
+﻿@model  ViewModel.AdminDashboardViewModel
+@{
+    ViewBag.Title = "CustomerAdministration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="~/Content/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/editor.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/datatables.css" rel="stylesheet" />
+}
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right !important;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+@section Scripts{
+    <script src="~/Scripts/js/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
+    @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
+    <script src="~/Scripts/js/dataTables.select.min.js"></script>
+    <script src="~/Scripts/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/js/dataTables.editor.min.js"></script>
+    <script src="~/Scripts/js/datatables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            ViewCustomerTable();
+            var uri = window.location.toString();
+            var username = getQueryString('Username', uri);
+            console.log(username)
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
+            $('#btnShowCustomer').on('click', function (e) {
+                e.preventDefault();
+                $('#divAddCustomer').show();
+                $('#btnShowCustomer').hide();
+            });
+            $('#btnAddCustomerCancel').on('click', function (e) {
+                e.preventDefault();
+                $('#divAddCustomer').hide();
+                $('#btnShowCustomer').show();
+            })
+            $('#btnAddCustomer').on('click', function (e) {
+                e.preventDefault();
+                AddCustomer();
+            });
+            //to populate the customer information for edit
+            $(document).on('click', 'a.editor_edit', function (e) {
+                e.preventDefault();
+                $('#divCustomerEdits').show();
+                var CustomerID = $(this).attr('data-customerID-attr');
+                var url = '/Home/GetCustomerID?CustomerID=' + CustomerID;
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataTYpe: 'json',
+                    success: function (result) {
+                        console.log(result)
+
+                        var CustomerInfo = _.map(result.CustomerByID)
+                        console.log(CustomerInfo)
+                        var CustomerName
+                        var Address
+                        var PhoneNumber
+                        var Password
+                        var EmailAddress
+                        var StatusID
+                        var StatusName
+
+
+                        $(CustomerInfo).each(function () {
+                            CustomerName = (this).CustomerName
+                            Address = (this).Address
+                            PhoneNumber = (this).PhoneNumber
+                            Password = (this).Password
+                            EmailAddress = (this).EmailAddress
+                            StatusID = (this).StatusID
+
+
+                            $('#HFCustomerID').val(CustomerID)
+                            $('#txtEditCustomerName').val(CustomerName)
+                            $('#txtEditAddress').val(Address)
+                            $('#txtEditPhoneNumber').val(PhoneNumber)
+                            $('#txtEditEmailAddress').val(EmailAddress)
+                            $('#txtEditPassword').val(Password);
+                            $('#ddStatus').val(StatusID);
+                        })
+                        $('#divInfo').show();
+                    }
+                });
+            });
+            //Update Customer
+            $('#btnSubmitEditCustomer').on('click', function (e) {
+                e.preventDefault();
+                UpdateCustomer();
+            })
+            $('#btnCancelEditCustomer').on('click', function (e) {
+                e.preventDefault();
+                $('#divCustomerEdits').hide();
+                ViewCustomerTable();
+            })
+            $('.close').on('click', function (e) {
+                $("#divCustomerEdits").hide();
+            })
+            $('#btnBacktoAdminDash').on('click', function (e) {
+                e.preventDefault();
+                var url = '/Home/AdminDashboard?userName=' + username;
+                window.open(url, '_self')
+            })
+        });
+        //function to populate the customer table for viewing
+        function ViewCustomerTable() {
+            
+            $.ajax({
+                type: 'POST',
+                url: '/Home/AllCustomers',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result)
+                    var table = $('#gvAllCustomers').DataTable();
+                    table.destroy();
+                    var table = $('#gvAllCustomers');
+                    table.DataTable({
+                        response: true,
+                        "data": result.GetAllCustomers,
+                        columns: [
+                            { "data": "CustomerID" },
+                            { "data": "CustomerName" },
+                            { "data": "Address" },
+                            { "data": "PhoneNumber" },
+                            { "data": "StatusName" },
+                            { "data": "EmailAddress" },
+                            //{data: null, className: "center",defaultContent: '<a href="" class="editor_edit button special" data-videoID-attr="' + data.VideoID + '">Edit</a> '}
+                            { data: null, render: function (data, type, row) { return "<a class='btnEditCustomer editor_edit button special' data-customerID-attr='" + data.CustomerID + "'>Edit</a>" } }
+                        ],
+                        select: true,
+
+                    })
+
+                }
+            })
+        }
+        //function to Add Customer
+        function AddCustomer() {
+            var CustomerName = $('#txtAddCustomerName').val();
+            var Address = $('#txtAddAddress').val();
+            var PhoneNumber = $('#txtAddPhoneNumber').val();
+            var Password = $('#txtAddPassword').val();
+            var EmailAddress = $('#txtAddEmailAddress').val();
+
+            $.ajax({
+                type: 'POST',
+                url: "/Home/RegistrationInsert",
+                data: {
+                    'customerName': CustomerName,
+                    'address': Address,
+                    'phoneNumber': PhoneNumber,
+                    'password': Password,
+                    'emailAddress': EmailAddress
+                },
+                dataType: 'json',
+                success: function (result) {
+
+                    var Result = _.map(result, i => _.pick(i, 'result'))
+                    var result = Result[0].result
+                    if (result == "success") {
+                        swal({
+                            title: 'Success!',
+                            text: 'Registration was successfully.',
+                            type: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                        ViewCustomerTable();
+                        $('#divAddCustomer').hide();
+                        $('#btnShowCustomer').show();
+                    }
+                }
+
+            });
+        };
+        //Update Customer
+        function UpdateCustomer() {
+            var editID = $("#HFCustomerID").val();
+            var editName = $('#txtEditCustomerName').val()
+            var editAddress = $('#txtEditAddress').val()
+            var editPhone = $('#txtEditPhoneNumber').val()
+            var editEmail = $('#txtEditEmailAddress').val()
+            var editPassword = $('#txtEditPassword').val();
+            var editStatus = $('#ddStatus').val();
+
+            var url = '/Home/CustomersUpdate?CustomerID=' + editID + '&CustomerName=' + editName + '&Address=' + editAddress + '&PhoneNumber=' + editPhone + '&Password=' + editPassword + '&EmailAddress=' + editEmail + '&Status=' + editStatus;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    $('#divCustomerEdits').hide();
+                    ViewCustomerTable();
+                }
+
+            });
+
+        }
+        var getQueryString = function (field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        };
+    </script>
+}
+<header id="header">
+    <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+    <a href="#menu" class="toggle"><span>Menu</span></a>
+</header>
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div class="box">
+            @*This is Customer Administration*@
+            <div class="content" id="divVideoGrid" style="display:block">
+                <header class="align-center">
+                    <h2>Customer Administration</h2>
+                </header>
+                @*This is to add a new Customer*@
+                <div class="">
+                    <button class="button alt 8u 12u$(xsmall)" id="btnShowCustomer">Add a Customer</button>
+                    <button class="button 3u 12u$(xsmall)" id="btnBacktoAdminDash" onclick="BacktoDash()">back to Dashboard</button>
+                    <div class="row uniform" style="display:none;margin-top:10px" id="divAddCustomer">
+                        <div class="6u 12u$(xsmall)">
+                            <input type="text" placeholder="Customer Name" id="txtAddCustomerName" /><br />
+                            <input type="text" placeholder="Address" id="txtAddAddress" /><br />
+                            <input type="text" placeholder="Phone Number" id="txtAddPhoneNumber" /><br />
+                            <input type="password" placeholder="Password" id="txtAddPassword" /><br />
+                            <input type="email" placeholder="Email Address" id="txtAddEmailAddress" />
+                        </div>
+                        <div class="8u 12u$(xsmall)">
+                            <button id="btnAddCustomer" type="button" data-loading-text="Loading... ">Add Customer</button>
+                            <button id="btnAddCustomerCancel" type="button" data-loading-text="Loading... ">Cancel</button>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px">
+
+                        <table id="gvAllCustomers" class="display responsive wrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="all">Customer ID</th>
+                                    <th class="all">Customer Name</th>
+                                    <th class="none">Address</th>
+                                    <th class="all">Phone Number</th>
+                                    <th class="none">Status</th>
+                                    <th class="all">Email Address</th>
+                                    <th class="all"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+                @*this is the Video Edit, Update, Archive and Restore*@
+                <div id="divCustomerEdits" class="modal">
+                    <input type="hidden" id="HFCustomerID" />
+                    <div class="modal-content">
+                        <h3>Video Edit</h3>
+                        <span class="close">&times;</span>
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="CustomerName" id="txtEditCustomerName" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Address" id="txtEditAddress" />
+                            </div>
+                        </div>
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Phone Number" id="txtEditPhoneNumber" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Email Address" id="txtEditEmailAddress" />
+                            </div>
+                        </div>
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="password" placeholder="Password" id="txtEditPassword" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <select id="ddStatus">
+                                    <option value="" selected>Please select Status</option>
+                                    @foreach (var item in Model.DropdownStatus)
+                                    {
+                                        <option value="@item.StatusID" selected>@item.StatusName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <button id="btnSubmitEditCustomer" class="special">Submit</button>
+                                <button id="btnCancelEditCustomer" class="alt">Cancel</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

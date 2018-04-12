@@ -145,6 +145,7 @@
                 url: url,
                 dataType: 'json',
                 success: function (result) {
+                    debugger
                     var EmailAddress = result.GetAdminByUserName
                     var username = EmailAddress[0].EmailAddress
                     var url = '/Home/AdminDashboard?userName=' + username;

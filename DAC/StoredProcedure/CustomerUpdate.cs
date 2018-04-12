@@ -18,7 +18,7 @@ namespace DAC.StoredProcedure
             using (IDbConnection connection = new SqlConnection(Constants.connectionString))
             {
                 const string storedProcedure = "[dbo].[Customer_Update]";
-                return (UpdateCustomer)connection.Query<UpdateCustomer>(storedProcedure, new {CustomerID = CustomerID, CustomerName = CustomerName, Address = Address, PhoneNumber = PhoneNumber, Password = Password,Status = Status, EmailAddress = EmailAddress }, commandType: CommandType.StoredProcedure);
+                return (UpdateCustomer)connection.QueryFirst<UpdateCustomer>(storedProcedure, new {CustomerID = CustomerID, CustomerName = CustomerName, Address = Address, PhoneNumber = PhoneNumber, Password = Password, Status = Status, EmailAddress = EmailAddress }, commandType: CommandType.StoredProcedure);
             }
 
         }
