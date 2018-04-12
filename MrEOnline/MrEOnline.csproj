@@ -168,6 +168,8 @@
     <Compile Include="Models\AllVideos.cs" />
     <Compile Include="Models\CustomerGetbyUsername.cs" />
     <Compile Include="Models\RegistrationInsert.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\UpdateVideo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +184,7 @@
     <Content Include="Content\css\datatables.css" />
     <Content Include="Content\css\editor.dataTables.min.css" />
     <Content Include="Content\css\jquery.dataTables.min.css" />
+    <Content Include="Content\css\responsive.dataTables.min.css" />
     <Content Include="Content\css\select.dataTables.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\main.css" />
@@ -238,6 +241,7 @@
     <Content Include="Scripts\js\dataTables.buttons.min.js" />
     <Content Include="Scripts\js\dataTables.editor.min.js" />
     <Content Include="Scripts\js\datatables.js" />
+    <Content Include="Scripts\js\dataTables.responsive.min.js" />
     <Content Include="Scripts\js\dataTables.select.min.js" />
     <Content Include="Scripts\js\jquery-1.12.4.js" />
     <Content Include="Scripts\js\jquery.dataTables.min.js" />

@@ -21,16 +21,6 @@ namespace Core
             viewModel.VideoListInsert = model;
             return viewModel;
         }
-        //public AdminDashboardViewModel VideoView()
-        //{
-        //    VideoGetAll repos = new VideoGetAll();
-        //    List<AllVideos> model = new List<AllVideos>();
-
-        //    AdminDashboardViewModel viewModel = new AdminDashboardViewModel();
-
-        //    model = repos.GetAllVideo();
-        //    viewModel.VideoView = model;
-        //    return viewModel;
-        //}
+        
     }
 }

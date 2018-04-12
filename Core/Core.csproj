@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CoreAdminGetByUsername.cs" />
     <Compile Include="CoreAdminInsert.cs" />
+    <Compile Include="CoreAdministration.cs" />
     <Compile Include="CoreCustomerGetByUsername.cs" />
     <Compile Include="CoreGetCustomersAll.cs" />
     <Compile Include="CoreRegistrationInsert.cs" />

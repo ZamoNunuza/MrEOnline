@@ -13,5 +13,7 @@ namespace ViewModel
         public List<AddVideo> VideoListInsert { get; set; }
         public List<AllVideos> VideoView { get; set; } 
         public List<AllCustomers> GetAllCustomers { get; set; }
+        public List<Status> DropdownStatus { get; set; }
+        public List<UpdateVideo> VideoListUpdate { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model ViewModel.AdminDashboardViewModel
 @{
     ViewBag.Title = "AdminDashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +8,7 @@
     <link href="~/Content/css/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/css/select.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/css/editor.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/css/datatables.css" rel="stylesheet" />
 }
 
@@ -89,7 +90,7 @@
     /* The Close Button */
     .close {
         color: #aaaaaa;
-        float: right;
+        float: right !important;
         font-size: 28px;
         font-weight: bold;
     }
@@ -105,27 +106,26 @@
 @section Scripts{
 
     <script src="~/Scripts/js/jquery-1.12.4.js"></script>
-    @*<script src="~/Scripts/js/dataTables.editor.min.js"></script>*@
     <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/js/dataTables.buttons.min.js"></script>
+    @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
     <script src="~/Scripts/js/dataTables.select.min.js"></script>
-
+    <script src="~/Scripts/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/js/dataTables.editor.min.js"></script>
     <script src="~/Scripts/js/datatables.js"></script>
     <script>
         $(document).ready(function () {
-            var url = window.location.href;
-            var UserName = getQueryString('userName', url);
+
+
             //this piece of jQuery is to clear the URL
-            //var uri = window.location.toString();
-            //if (uri.indexOf("?") > 0) {
-            //    var clean_uri = uri.substring(0, uri.indexOf("?"));
-            //    window.history.replaceState({}, document.title, clean_uri);
-            //}
-            //$('#gvAllVideos').DataTable();
+            var uri = window.location.toString();
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
 
+            //This show the model of the User Admin Add and had a close button
             $('#btnAddUserAdmin').on('click', function (e) {
-                //e.preventDefault();
-
+                e.preventDefault();
                 $("#divAdmin").show();
             });
             $('.close').on('click', function (e) {
@@ -136,7 +136,11 @@
             })
             $('#btnAdminSubmit').on('click', function (e) {
                 e.preventDefault();
+                AdminAdd();
             });
+            //End User Admin Add
+
+            //Video List Upload
             $('#btnUplaod').on('click', function (e) {
                 e.preventDefault();
 
@@ -179,12 +183,53 @@
                 //}
                 // }
             })
+            //End
+
+            //Video List Table
             $('#divVideoAdmin').on('click', function () {
                 ViewVideoTable();
                 $('#divAdminDashboard').hide();
             })
+            //End
+
+            //Video Administation Table (Add, Edit, Update, Archive and Restore)
+            $('#btnShowVideo').on('click', function (e) {
+                $('#divAddVideo').show();
+                $('#btnShowVideo').hide();
+                ViewVideoTable(); /*reloading the table*/
+            });
+            $('#btnAddVideoCancel').on('click', function (e) {
+                $('#divAddVideo').hide();
+                $('#btnShowVideo').show();
+            });
+            $('#btnCancelEditVideo').on('click', function (e) {
+                e.preventDefault();
+                $('#divVideoEdits').hide();
+                ViewVideoTable();/*reloading the table*/
+            })
+            $('#btnAddVideo').on('click', function (e) {
+                e.preventDefault();
+                $('#divAddVideo').hide();
+                var AddTitle = $("#txtAddTitle").val();
+                var AddDescription = $("#txtAddDescription").val();
+                var AddGenre = $("#txtAddGenre").val();
+                var AddRentalPrice = $("#txtAddRentalPrice").val();
+                var url = '/Home/AddNewVideo?Title=' + AddTitle + '&Description=' + AddDescription + '&Genre=' + AddGenre + '&RentalPrice=' + AddRentalPrice;
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (result) {
+                        ViewVideoTable();
+                    }
+                });
+                
+            })
+
+
         })
-        function Testing() {
+        function ViewCustomerTable() {
             $.ajax({
                 type: 'POST',
                 url: '/Home/AllCustomers',
@@ -235,6 +280,10 @@
         //this is a function to populate the video table for viewing
         function ViewVideoTable() {
             $('#divVideoGrid').show();
+            $('#gvAllVideos').on('click', 'a.editor_edit', function (e) {
+                e.preventDefault();
+                $('#divVideoEdits').show();
+            });
             var url = window.location.href;
             var UserName = getQueryString('userName', url);
             var url = '/Home/ListofVideos';
@@ -245,32 +294,54 @@
                 dataType: 'json',
                 success: function (result) {
                     var data = result.VideoView;
-                    console.log(result)
+                    var table = $('#gvAllVideos').DataTable();
+                    table.destroy();
                     var table = $('#gvAllVideos');
                     table.DataTable({
                         response: true,
                         data: data,
                         columns: [
-                            { "data": "VideoID" },
-                            { "data": "Title" },
-                            { "data": "Description" },
-                            { "data": "Genre" },
-                            { "data": "RentalPrice" },
-                            { "data": "StatusName" }
+                            { data: "VideoID" },
+                            { data: "Title" },
+                            { data: "Description" },
+                            { data: "Genre" },
+                            { data: "RentalPrice", render: $.fn.dataTable.render.number(',', '.', 0, 'R') },
+                            { data: "StatusName" },
+                            {
+                                data: null,
+                                className: "center",
+                                defaultContent: '<a href="" class="editor_edit button special">Edit</a> '
+                            }
+                            //{ data: null, render: function (data, type, row) { return "<a class='btnEditVideo' data-videoID-attr='" + data.VideoID + "'>Edit</a>"}}
                         ],
                         select: true,
-                        buttons: [
-                            //{ extend: 'edit', editor: myEditor },
-                            //{ extend: "edit", editor: editor },
-                            //{ extend: "remove", editor: editor }
-                        ]
 
                     })
+
                 }
             })
 
         }
+        function UpdateVideo() {
+            var editID = $("#HFVideoID").val();
+            var editTitle = $("#txtEditTitle").val();
+            var editDescription = $("#txtEditDescription").val();
+            var editGenre = $("#txtEditGenre").val();
+            var editRentalPrice = $("#txtEditRentalPrice").val();
+            var editStatus = $("#ddStatus").val();
 
+            var url = '/Home/VideoUpdate?VideoID=' + editID + '&Title=' + editTitle + '&Description=' + editDescription + '&Genre=' + editGenre + '&RentalPrice=' + editRentalPrice + '&Status=' + editStatus;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    ViewVideoTable();
+                }
+
+            });
+        }
         var getQueryString = function (field, url) {
             var href = url ? url : window.location.href;
             var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
@@ -287,9 +358,9 @@
     <a href="#menu" class="toggle"><span>Menu</span></a>
 </header>
 <section id="one" class="wrapper style2">
-
     <div class="inner">
         <div class="box">
+            @*This is Admin dashboard*@
             <div class="content" id="divAdminDashboard">
                 <header class="align-center">
                     <h2>Admin Dashboard</h2>
@@ -332,9 +403,9 @@
                 @*this is the Admin Add Page*@
                 <div id="divAdmin" class="modal">
                     <div class="modal-content">
-                        <span class="close">&times;</span>
+                        <span class="close pull-right">&times;</span>
                         <h3>Admin Add</h3>
-                        <div class="row uniform">
+                        <div class="row uniform" style="margin-bottom: 10px">
                             <div class="6u 12u$(xsmall)">
                                 <input type="text" name="PhoneNumber" id="txtAdminName" placeholder="Name" />
                             </div>
@@ -342,7 +413,7 @@
                                 <input type="email" name="EmailAddress" id="txtEmailAddress" placeholder="Email Address" />
                             </div>
                         </div>
-                        <div class="row uniform">
+                        <div class="row uniform" style="margin-bottom: 10px">
                             <div class="6u 12u$(xsmall)">
                                 <input type="password" name="AdminPassword" id="txtPassword" placeholder="Password" />
                             </div>
@@ -354,24 +425,86 @@
                     </div>
                 </div>
             </div>
+            @*This is Video Administration*@
             <div class="content" id="divVideoGrid" style="display:none">
                 <header class="align-center">
                     <h2>Video Administration</h2>
                 </header>
+                @*This is to add a new Video*@
                 <div class="">
-                    <table id="gvAllVideos" class="display wrap" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Video ID</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Genre</th>
-                                <th>Rental Price</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <button class="button alt 8u 12u$(xsmall)" id="btnShowVideo">Add a Video</button>
+                    <div class="row uniform" style="display:none;margin-top:10px" id="divAddVideo">
+                        <div class="6u 12u$(xsmall)">
+                            <input type="text" placeholder="Title" id="txtAddTitle" />
+                            <input type="text" placeholder="Description" id="txtAddDescription" />
+                            <input type="text" placeholder="Genre" id="txtAddGenre" />
+                            <input type="text" placeholder="Rental Price" id="txtAddRentalPrice" />
+                        </div>
+                        <div class="8u 12u$(xsmall)">
+                            <button id="btnAddVideo" type="button" data-loading-text="Loading... ">Add Video</button>
+                            <button id="btnAddVideoCancel" type="button" data-loading-text="Loading... ">Cancel</button>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px">
+                        <table id="gvAllVideos" class="display responsive wrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="all">Video ID</th>
+                                    <th class="all">Title</th>
+                                    <th class="none">Description</th>
+                                    <th class="all">Genre</th>
+                                    <th class="none">Rental Price</th>
+                                    <th class="all">Status</th>
+                                    <th class="all"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+                @*this is the Video Edit, Update, Archive and Restore*@
+                <div id="divVideoEdits" class="modal">
+                    <input type="hidden" id="HFVideoID" />
+                    <div class="modal-content">
+                        <h3>Video Edit</h3>
+                        <span class="close">&times;</span>
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Title" id="txtEditTitle" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Description" id="txtEditDescription" />
+                            </div>
+                        </div>
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Genre" id="txtEditGenre" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Rental Price" id="txtEditRentalPrice" />
+                            </div>
+                        </div>
+
+
+                        <div class="row uniform" style="margin-bottom: 10px">
+
+                            <div class="6u 12u$(xsmall)">
+                                <select id="ddStatus">
+                                    <option value="" selected>Please select Status</option>
+                                    @foreach (var item in Model.DropdownStatus)
+                                    {
+                                        <option value="@item.StatusID" selected>@item.StatusName</option>
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <button id="btnSubmitEditVideo" class="special">Submit</button>
+                                <button id="btnCancelEditVideo" class="alt">Cancel</button>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

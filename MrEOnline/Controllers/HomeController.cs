@@ -49,12 +49,18 @@ namespace MrEOnline.Controllers
         {
             ViewBag.RemoveSelectedTitle = "User";
             ViewBag.RemoveSelectedactionName = Username;
-            return View();
+            CoreAdministration core = new CoreAdministration();
+            return View(core.GetStatusDropdown());
         }
         public ActionResult AdminInsert(string AdminName, string EmailAddress, string AdminPassword)
         {
             CoreAdminInsert core = new CoreAdminInsert();
             return Json(core.InsertAdmin(AdminName, EmailAddress, AdminPassword), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult VideoUpdate(string VideoID, string Title, string Description, string Genre, string RentalPrice, string Status)
+        {
+            CoreAdministration core = new CoreAdministration();
+            return Json(core.UpdateVideos(VideoID, Title, Description, Genre, RentalPrice, Status), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult UploadCsvFile(string filePath)
@@ -139,6 +145,11 @@ namespace MrEOnline.Controllers
                 }
             }
             return Json("No files selected.");
+        }
+        public ActionResult AddNewVideo(string Title, string Description, string Genre, string RentalPrice)
+        {
+            CoreVideoListAdd core = new CoreVideoListAdd();
+            return Json(core.InsertVideo(Title,Description,Genre,RentalPrice), JsonRequestBehavior.AllowGet);
         }
         public ActionResult AllCustomers()
         {

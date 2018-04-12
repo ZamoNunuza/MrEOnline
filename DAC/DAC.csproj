@@ -54,8 +54,10 @@
     <Compile Include="StoredProcedure\CustomerGetAll.cs" />
     <Compile Include="StoredProcedure\CustomerGetByUsername.cs" />
     <Compile Include="StoredProcedure\Registration.cs" />
+    <Compile Include="StoredProcedure\StatusDropDown.cs" />
     <Compile Include="StoredProcedure\VideoGetAll.cs" />
     <Compile Include="StoredProcedure\VideoListAdd.cs" />
+    <Compile Include="StoredProcedure\VideoUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
