@@ -12,13 +12,13 @@ namespace DAC.StoredProcedure
 {
     public class VideoGetAll
     {
-        public List<AllVideos> GetAllVideo(string status)
+        public List<AllVideos> GetAllVideo()
         {
             Constants constants = new Constants();
             using (IDbConnection connection = new SqlConnection(constants.connectionString))
             {
                 const string storedProcedure = "[dbo].[Video_GetAll]";
-                return (List<AllVideos>)connection.Query<AllVideos>(storedProcedure, new { Status = status},commandType: CommandType.StoredProcedure);
+                return (List<AllVideos>)connection.Query<AllVideos>(storedProcedure,commandType: CommandType.StoredProcedure);
             }
         }
     }

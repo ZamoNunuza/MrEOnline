@@ -33,6 +33,10 @@
     <Reference Include="Dapper">
       <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="MrEOnline, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MrEOnline\bin\MrEOnline.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,12 +56,6 @@
     <Compile Include="StoredProcedure\Registration.cs" />
     <Compile Include="StoredProcedure\VideoGetAll.cs" />
     <Compile Include="StoredProcedure\VideoListAdd.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MrEOnline\MrEOnline.csproj">
-      <Project>{28FBBD15-2B2D-4169-8D65-ADF46C8423CE}</Project>
-      <Name>MrEOnline</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

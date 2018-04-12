@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DAC\bin\Debug\DAC.dll</HintPath>
+    </Reference>
+    <Reference Include="MrEOnline, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MrEOnline\bin\MrEOnline.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -38,6 +46,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="ViewModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ViewModel\bin\Debug\ViewModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreAdminGetByUsername.cs" />
@@ -48,20 +60,6 @@
     <Compile Include="CoreVideoListAdd.cs" />
     <Compile Include="CoreVideoLists.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DAC\DAC.csproj">
-      <Project>{A96DC435-6E64-42B0-BECB-4F0C13133D64}</Project>
-      <Name>DAC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MrEOnline\MrEOnline.csproj">
-      <Project>{28FBBD15-2B2D-4169-8D65-ADF46C8423CE}</Project>
-      <Name>MrEOnline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ViewModel\ViewModel.csproj">
-      <Project>{737A0527-625A-4858-ADE7-60568F68FB7C}</Project>
-      <Name>ViewModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

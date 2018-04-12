@@ -12,14 +12,14 @@ namespace Core
 {
     public class CoreVideoLists
     {
-        public AdminDashboardViewModel VideoView(string status)
+        public AdminDashboardViewModel VideoView()
         {
             VideoGetAll repos = new VideoGetAll();
             List<AllVideos> model = new List<AllVideos>();
 
             AdminDashboardViewModel viewModel = new AdminDashboardViewModel();
 
-            model = repos.GetAllVideo(status);
+            model = repos.GetAllVideo();
             viewModel.VideoView = model;
             return viewModel;
         }

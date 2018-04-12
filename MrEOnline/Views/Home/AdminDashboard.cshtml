@@ -8,6 +8,7 @@
     <link href="~/Content/css/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/css/select.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/css/editor.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/datatables.css" rel="stylesheet" />
 }
 
 <style>
@@ -102,11 +103,14 @@
 </style>
 
 @section Scripts{
-    @*<script src="~/Scripts/js/jquery-1.12.4.js"></script>*@
-    <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
-    @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
-    @*<script src="~/Scripts/js/dataTables.select.min.js"></script>*@
+
+    <script src="~/Scripts/js/jquery-1.12.4.js"></script>
     @*<script src="~/Scripts/js/dataTables.editor.min.js"></script>*@
+    <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/js/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/js/dataTables.select.min.js"></script>
+
+    <script src="~/Scripts/js/datatables.js"></script>
     <script>
         $(document).ready(function () {
             var url = window.location.href;
@@ -117,12 +121,12 @@
             //    var clean_uri = uri.substring(0, uri.indexOf("?"));
             //    window.history.replaceState({}, document.title, clean_uri);
             //}
-            $('#gvAllVideos').DataTable();
-            
+            //$('#gvAllVideos').DataTable();
+
             $('#btnAddUserAdmin').on('click', function (e) {
                 //e.preventDefault();
 
-               $("#divAdmin").show();
+                $("#divAdmin").show();
             });
             $('.close').on('click', function (e) {
                 $("#divAdmin").hide();
@@ -135,7 +139,7 @@
             });
             $('#btnUplaod').on('click', function (e) {
                 e.preventDefault();
-                
+
                 var filePath = $('#txtFilepath').val();
 
                 var fileUpload = $("#UplFile").get(0);
@@ -160,7 +164,7 @@
                     type: 'POST',
                     success: function (result) {
                         debugger;
-                        
+
                         if (result == "File Uploaded Successfully!") {
                             swal({
                                 title: 'Success!',
@@ -169,13 +173,31 @@
                                 confirmButtonText: 'Ok'
                             })
                         }
-                        
+
                     }
                 });
                 //}
                 // }
             })
+            $('#divVideoAdmin').on('click', function () {
+                ViewVideoTable();
+                $('#divAdminDashboard').hide();
+            })
         })
+        function Testing() {
+            $.ajax({
+                type: 'POST',
+                url: '/Home/AllCustomers',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result)
+
+
+                }
+            })
+
+        }
         //this is a function to add admin users
         function AdminAdd() {
             var AdminName = $('#txtAdminName').val();
@@ -212,37 +234,35 @@
         }
         //this is a function to populate the video table for viewing
         function ViewVideoTable() {
-            //$('#divVideoAdmin').show();
+            $('#divVideoGrid').show();
             var url = window.location.href;
             var UserName = getQueryString('userName', url);
-            var url = '/Home/ListofVideos?status=' + '1';
+            var url = '/Home/ListofVideos';
             $.ajax({
                 type: 'POST',
-                url: url,
+                url: '/Home/ListofVideos',
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (result) {
-                    var data = result.GetAllVideos;
+                    var data = result.VideoView;
                     console.log(result)
                     var table = $('#gvAllVideos');
                     table.DataTable({
                         response: true,
                         data: data,
                         columns: [
-                            { data: "VideoID" },
-                            { data: "Title" },
-                            { data: "Description" },
-                            { data: "Genre" },
-                            { data: "RentalPrice" },
-                            { data: "StatusName"}
-
-
+                            { "data": "VideoID" },
+                            { "data": "Title" },
+                            { "data": "Description" },
+                            { "data": "Genre" },
+                            { "data": "RentalPrice" },
+                            { "data": "StatusName" }
                         ],
                         select: true,
                         buttons: [
-                            { extend: "create", editor: editor },
-                            { extend: "edit", editor: editor },
-                            { extend: "remove", editor: editor }
+                            //{ extend: 'edit', editor: myEditor },
+                            //{ extend: "edit", editor: editor },
+                            //{ extend: "remove", editor: editor }
                         ]
 
                     })
@@ -270,13 +290,13 @@
 
     <div class="inner">
         <div class="box">
-            <div class="content">
+            <div class="content" id="divAdminDashboard">
                 <header class="align-center">
                     <h2>Admin Dashboard</h2>
                 </header>
                 <div class="row uniform">
                     <div id="main-block" class="container 4u 12u$(xsmall)">
-                        <div class="MainDiv">
+                        <div class="MainDiv" id="divVideoAdmin">
                             <section class="span4">
                                 <i class="Icons fa fa-5x far fa-forward"></i>
                                 <h2 class="LabelIcons">Video Administration</h2>
@@ -306,7 +326,7 @@
                         <button class="button alt" id="btnUplaod">Upload</button>
                     </div>
                     <div class="8u 12u$(xsmall)">
-                        <button id="btnAddUserAdmin"  type="button" data-loading-text="Loading... ">Add User Admin</button>
+                        <button id="btnAddUserAdmin" type="button" data-loading-text="Loading... ">Add User Admin</button>
                     </div>
                 </div>
                 @*this is the Admin Add Page*@
@@ -334,19 +354,21 @@
                     </div>
                 </div>
             </div>
-            <div class="content" id="divVideoAdmin" style="display:none">
+            <div class="content" id="divVideoGrid" style="display:none">
                 <header class="align-center">
                     <h2>Video Administration</h2>
                 </header>
                 <div class="">
-                    <table id="gvAllVideos" class="display" style="width:100%">
+                    <table id="gvAllVideos" class="display wrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Video ID</th>
                                 <th>Title</th>
                                 <th>Description</th>
+                                <th>Genre</th>
                                 <th>Rental Price</th>
                                 <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                     </table>

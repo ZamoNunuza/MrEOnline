@@ -13,10 +13,10 @@ namespace MrEOnline.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult ListofVideos(string status)
+        public ActionResult ListofVideos()
         {
             CoreVideoLists core = new CoreVideoLists();
-            var list = core.VideoView(status);
+            var list = core.VideoView();
             return Json(list,JsonRequestBehavior.AllowGet );
         }
         public ActionResult Index()
