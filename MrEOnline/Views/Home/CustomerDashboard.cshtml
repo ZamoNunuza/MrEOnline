@@ -1,0 +1,85 @@
+﻿@model ViewModel.CustomerDashbordViewModel
+@{
+    ViewBag.Title = "CustomerDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* Create two equal columns that floats next to each other */
+    .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    /* Style the buttons */
+    .btn {
+        border: none;
+        outline: none;
+        padding: 12px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background-color: #ddd;
+        }
+
+        .btn.active {
+            background-color: #666;
+            color: white;
+        }
+</style>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            GetAllVideos();
+        })
+        function GetAllVideos() {
+            var url = '/Home/ViewVideosCustomer';
+            $.ajax({
+                type: 'POST',
+                url: '/Home/ViewVideosCustomer',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                }
+            });
+
+        }
+    </script>
+
+}
+<header id="header">
+    <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+    <a href="#menu" class="toggle"><span>Menu</span></a>
+</header>
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div class="box">
+            @*This is Customer Dashboardoard*@
+            <div class="content" id="divCsutomerDashboard">
+                <header class="align-center">
+                    <h2>Customer Dashboard</h2>
+                </header>
+
+                <div class="row">
+                    @*@foreach (var item in Model.AllVideosView)
+                    {
+                        <div class="column">
+                            <h2>@item.Title</h2>
+                            <p>@item.Description</p>
+                        </div>
+                    }*@
+
+                </div>
+            </div>
+        </div>
+        </div>
+</section>
+

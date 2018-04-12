@@ -58,6 +58,7 @@
     <Compile Include="StoredProcedure\Registration.cs" />
     <Compile Include="StoredProcedure\StatusDropDown.cs" />
     <Compile Include="StoredProcedure\VideoGetAll.cs" />
+    <Compile Include="StoredProcedure\VideoGetAllByStatus.cs" />
     <Compile Include="StoredProcedure\VideoGetByID.cs" />
     <Compile Include="StoredProcedure\VideoListAdd.cs" />
     <Compile Include="StoredProcedure\VideoUpdate.cs" />

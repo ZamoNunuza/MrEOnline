@@ -180,21 +180,36 @@ namespace MrEOnline.Controllers
                 return View(core.GetStatusDropdown());
             }
         }
+            //get all customers
         public ActionResult AllCustomers()
         {
             CoreGetCustomersAll core = new CoreGetCustomersAll();
             return Json(core.getAllcustomers(), JsonRequestBehavior.AllowGet);
         }
+            //customer by ID
         public ActionResult GetCustomerID(string CustomerID)
         {
             CoreAdministration core = new CoreAdministration();
             return Json(core.GetCustomerByID(CustomerID),JsonRequestBehavior.AllowGet);
         }
+            //updating a customer record
         public ActionResult CustomersUpdate(string CustomerID, string CustomerName, string Address, string PhoneNumber, string Password, string EmailAddress, string Status)
         {
             CoreAdministration core = new CoreAdministration();
             return Json(core.UpdateCustomers(CustomerID,CustomerName,Address,PhoneNumber,Password,EmailAddress,Status),JsonRequestBehavior.AllowGet);
         }
-        
+
+        //Customer Dashboard
+        public ActionResult CustomerDashboard(string username)
+        {
+            ViewBag.RemoveSelectedTitle = "User";
+            ViewBag.RemoveSelectedactionName = username;
+            return View();
+        }
+        public ActionResult ViewVideosCustomer()
+        {
+            CoreCustomer core = new CoreCustomer();
+            return Json(core.VideoView(),JsonRequestBehavior.AllowGet);
+        }
     }
 }
