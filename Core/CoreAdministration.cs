@@ -27,11 +27,48 @@ namespace Core
         {
             AdminDashboardViewModel viewModel = new AdminDashboardViewModel();
             VideoUpdate dac = new VideoUpdate();
-            List<UpdateVideo> model = new List<UpdateVideo>();
+            UpdateVideo model = new UpdateVideo();
 
             model = dac.UpdateVideoList(VideoID, Title, Description, Genre, RentalPrice, Status);
             viewModel.VideoListUpdate = model;
             return viewModel;
+        }
+
+        public AdminDashboardViewModel UpdateCustomers(string CustomerID, string CustomerName, string Address, string PhoneNumber, string Password, string EmailAddress, string Status)
+        {
+            CustomerUpdate Reposi = new CustomerUpdate();
+            AdminDashboardViewModel viewModel = new AdminDashboardViewModel();
+            UpdateCustomer model = new UpdateCustomer();
+
+            model = Reposi.UpdateCustomerList(CustomerID,CustomerName,Address,PhoneNumber,Password,EmailAddress,Status);
+            viewModel.CustomerListUpdate = model;
+            return viewModel;
+
+
+        }
+        public AdminDashboardViewModel GetVideoByID (string VideoID)
+        {
+            VideoGetByID Repos = new VideoGetByID();
+            AdminDashboardViewModel viewModel = new AdminDashboardViewModel();
+            List<VideoGetbyID> model = new List<VideoGetbyID>();
+
+            model = Repos.GetVideobyID(VideoID);
+            viewModel.VideoByID = model;
+
+            return viewModel;
+
+        }
+        public AdminDashboardViewModel GetCustomerByID(string CustomerID)
+        {
+            CustomerGetByID Repos = new CustomerGetByID();
+            AdminDashboardViewModel viewModel = new AdminDashboardViewModel();
+            List<CustomerGetbyID> model = new List<CustomerGetbyID>();
+
+            model = Repos.GetCustomerByID(CustomerID);
+            viewModel.CustomerByID = model;
+
+            return viewModel;
+
         }
     }
 }

@@ -14,6 +14,9 @@ namespace ViewModel
         public List<AllVideos> VideoView { get; set; } 
         public List<AllCustomers> GetAllCustomers { get; set; }
         public List<Status> DropdownStatus { get; set; }
-        public List<UpdateVideo> VideoListUpdate { get; set; }
+        public UpdateVideo VideoListUpdate { get; set; }
+        public UpdateCustomer CustomerListUpdate { get; set; }
+        public List<VideoGetbyID> VideoByID { get; set; }
+        public List<CustomerGetbyID> CustomerByID { get; set;}
     }
 }

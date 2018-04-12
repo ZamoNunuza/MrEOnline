@@ -12,13 +12,13 @@ namespace DAC.StoredProcedure
 {
     public class VideoUpdate
     {
-        public List<UpdateVideo> UpdateVideoList(string VideoID, string Title, string Description, string Genre, string RentalPrice, string Status)
+        public UpdateVideo UpdateVideoList(string VideoID, string Title, string Description, string Genre, string RentalPrice, string Status)
         {
             Constants Constants = new Constants();
             using (IDbConnection connection = new SqlConnection(Constants.connectionString))
             {
                 const string storedProcedure = "dbo.Video_Update";
-                return (List<UpdateVideo>)connection.Query<UpdateVideo>(storedProcedure, new { VideoID= VideoID, Title = Title, Description = Description, Genre = Genre, RentalPrice = RentalPrice, Status = Status }, commandType: CommandType.StoredProcedure);
+                return (UpdateVideo)connection.Query<UpdateVideo>(storedProcedure, new { VideoID= VideoID, Title = Title, Description = Description, Genre = Genre, RentalPrice = RentalPrice, Status = Status }, commandType: CommandType.StoredProcedure);
             }
 
         }

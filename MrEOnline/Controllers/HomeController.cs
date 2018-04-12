@@ -151,10 +151,26 @@ namespace MrEOnline.Controllers
             CoreVideoListAdd core = new CoreVideoListAdd();
             return Json(core.InsertVideo(Title,Description,Genre,RentalPrice), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetVideoID(string VideoID)
+        {
+            CoreAdministration core = new CoreAdministration();
+            return Json(core.GetVideoByID(VideoID),JsonRequestBehavior.AllowGet);
+        }
         public ActionResult AllCustomers()
         {
             CoreGetCustomersAll core = new CoreGetCustomersAll();
             return Json(core.getAllcustomers(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetCustomerID(string CustomerID)
+        {
+            CoreAdministration core = new CoreAdministration();
+            return Json(core.GetCustomerByID(CustomerID),JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CustomersUpdate(string CustomerID, string CustomerName, string Address, string PhoneNumber, string Password, string EmailAddress, string Status)
+        {
+            CoreAdministration core = new CoreAdministration();
+            return Json(core.UpdateCustomers(CustomerID,CustomerName,Address,PhoneNumber,Password,EmailAddress,Status),JsonRequestBehavior.AllowGet);
         }
     }
 }

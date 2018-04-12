@@ -166,10 +166,13 @@
     <Compile Include="Models\AdministrationInsert.cs" />
     <Compile Include="Models\AllCustomers.cs" />
     <Compile Include="Models\AllVideos.cs" />
+    <Compile Include="Models\CustomerGetbyID.cs" />
     <Compile Include="Models\CustomerGetbyUsername.cs" />
     <Compile Include="Models\RegistrationInsert.cs" />
     <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\UpdateCustomer.cs" />
     <Compile Include="Models\UpdateVideo.cs" />
+    <Compile Include="Models\VideoGetbyID.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
