@@ -31,24 +31,10 @@
             }
             $(document).on('click', 'btnReturned', function (e) {
                 e.preventDefault();
-
-                var RentalID = $(this).attr('data-RentalID-attr');
-                var VideoID = $(this).attr('data-videoID-attr');
-                var url = '/Home/UpdateReturn?RentalID=' + RentalID + '&VideoID=' + VideoID;
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    dataTYpe: 'json',
-                    success: function (result) {
-                        swal({
-                            title: 'Success!',
-                            text: 'Video Return was successfully.',
-                            type: 'success',
-                            confirmButtonText: 'Ok'
-                        })
-                        
-                    }
-                });
+                Returned();
+                
+                
+                
             });
             $('#btnBacktoAdminDash').on('click', function (e) {
                 e.preventDefault();
@@ -95,7 +81,25 @@
 
             });
         }
+        function Returned() {
+            var RentalID = $(this).attr('data-RentalID-attr');
+            var VideoID = $(this).attr('data-videoID-attr');
+            var url = '/Home/UpdateReturn?RentalID=' + RentalID + '&VideoID=' + VideoID;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataTYpe: 'json',
+                success: function (result) {
+                    swal({
+                        title: 'Success!',
+                        text: 'Video Return was successfully.',
+                        type: 'success',
+                        confirmButtonText: 'Ok'
+                    })
 
+                }
+            });
+        }
         var getQueryString = function (field, url) {
             var href = url ? url : window.location.href;
             var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
