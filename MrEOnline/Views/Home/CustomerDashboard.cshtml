@@ -3,12 +3,22 @@
     ViewBag.Title = "CustomerDashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Style{
+    <link href="~/Content/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/editor.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/datatables.css" rel="stylesheet" />
+}
 <style>
     /* Create two equal columns that floats next to each other */
     .column {
         float: left;
         width: 50%;
         padding: 10px;
+        border: 1px solid #aaa;
+        background-color: #ddd
     }
 
     /* Clear floats after the columns */
@@ -31,15 +41,98 @@
         }
 
         .btn.active {
-            background-color: #666;
-            color: white;
+            background-color: #666 !important;
+            color: white !important;
+        }
+
+    .alignment {
+        position: relative;
+        left: 50%;
+        margin-top: 50%;
+    }
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        margin-top: 200px
+    }
+    /* The Close Button */
+    .close {
+        color: #aaaaaa;
+        float: right !important;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
 </style>
 @section Scripts{
+    <script src="~/Scripts/js/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
+    @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
+    <script src="~/Scripts/js/dataTables.select.min.js"></script>
+    <script src="~/Scripts/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/js/dataTables.editor.min.js"></script>
+    <script src="~/Scripts/js/datatables.js"></script>
+
     <script>
+        var MovieAdds = []
+        var Titles = []
         $(document).ready(function () {
             GetAllVideos();
+            var uri = window.location.toString();
+            var username = getQueryString('Username', uri);
+            console.log(username)
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
+
+            var amount = 0;
+            var VideoID
+            var VideoTitle
+
+            $('#btnReturnVideo').on('click', function (e) {
+                var url = '/Home/VideoReturn?username=' + username;
+                window.open(url, '_self')
+            })
+
+            $(document).on('click', '.add', function () {
+                VideoID = $(this).attr('data-add-video');
+                VideoTitle = $(this).attr('data-title');
+                MovieAdds.push(VideoID)
+                Titles.push(VideoTitle)
+                amount = amount + 40;
+                $('#totalCost').text('R' + amount + '.00')
+
+            })
+            //will show the checkout of the video
+            $('#btnCheckOut').on('click', function (e) {
+                e.preventDefault();
+                $('#divVideoCheckOut').show();
+                $('#txtVideoCustomerName').val(username);
+                $('#txtAmount').val('R' + amount + '.00');
+                $('#txtVideoTitles').val(Titles)
+            });
+            $('.close').on('click', function (e) {
+                $("#divVideoCheckOut").hide();
+            })
+            $('#btnCheckVideo').on('click', function (e) {
+                e.preventDefault();
+                Videorental();
+
+
+            });
         })
+        //Gets all the available
         function GetAllVideos() {
             var url = '/Home/ViewVideosCustomer';
             $.ajax({
@@ -48,10 +141,117 @@
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (result) {
+                    console.log(result)
+                    var VideoInfo = result.AllVideosView
+                    console.log(VideoInfo)
+
+                    $(VideoInfo).each(function () {
+                        var VideoID = this.VideoID
+                        var Title = this.Title
+                        var Description = this.Description
+                        var Genre = this.Genre
+                        var RentalPrice = this.RentalPrice
+
+                        //var RowDiv = $("<div></div>").addClass("row").attr("data-videoid", VideoID)
+                        var ColumnDiv = $("<div></div>").addClass("column col-xs-6 ")
+                        var HeaderTitle = $("<h2></h2>").text(Title)
+                        var spanGenre = $("<span></span>").css("font-size", "12px").text(Genre);
+                        var PDescrip = $("<p></p>").text(Description).css("font-size", "12px")
+                        var PRental = $("<p></p>").text("R" + RentalPrice + ".00").attr("data-add-video", RentalPrice)
+                        var AddButton = $("<a></a>").addClass("12u 12u$(xsmall) editor_edit button special add").text("Add").attr("data-add-video", VideoID).attr("data-title", Title)
+                        var icon = $("<i></i>").addClass("fa fa-plus")
+
+                        HeaderTitle.append(spanGenre)
+                        ColumnDiv.append(HeaderTitle)
+                        ColumnDiv.append(PDescrip)
+                        ColumnDiv.append(PRental)
+                        ColumnDiv.append(AddButton)
+
+                        AddButton.append(icon)
+
+
+                        $('#ContainerRow').append(ColumnDiv)
+
+
+
+                    })
                 }
             });
 
         }
+        //Checking out the Videos
+        function Videorental() {
+            var customerName = $('#txtVideoCustomerName').val();
+            var customerPhone = $('#txtVideoPhoneNumber').val();
+            var VideoIDs = MovieAdds
+            var Titles = Titles
+            console.log(VideoIDs)
+            if (customerPhone == "") {
+                alert("Please fill in you Phone Number to procceed")
+                return false
+            }
+            var url = '/Home/VideoRental?VideoID=' + VideoIDs + '&CustomerName=' + customerName + '&CustomerPhone=' + customerPhone + '&Title=' + Titles;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    var info = result.videoRentalInsert
+                    var result = info.result
+
+                    if (result == "success") {
+                        swal({
+                            title: 'Success!',
+                            text: 'Video Rental was successfully checked out.',
+                            type: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                        GetAllVideos();
+                        $("#divVideoCheckOut").hide();
+                    }
+
+
+                }
+
+            });
+        }
+        function cancelCheckout() {
+            GetAllVideos();
+            $('#divVideoCheckOut').hide();
+        }
+        // Get the elements with class="column"
+        var elements = document.getElementsByClassName("column");
+        // Declare a loop variable
+        var i;
+        //For the List View
+        function listView() {
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.width = "100%";
+            }
+        }
+        //For the Grid View
+        function gridView() {
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.width = "50%";
+            }
+        }
+        //This Adds active class to the current button (highlight it)
+        var container = $('#btnContainer');
+        var btns = $('.btn');
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function () {
+                var current = $(".active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+            });
+        }
+        var getQueryString = function (field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        };
     </script>
 
 }
@@ -67,19 +267,57 @@
                 <header class="align-center">
                     <h2>Customer Dashboard</h2>
                 </header>
-
-                <div class="row">
-                    @*@foreach (var item in Model.AllVideosView)
-                    {
-                        <div class="column">
-                            <h2>@item.Title</h2>
-                            <p>@item.Description</p>
+                <div id="btnContainer">
+                    <button class="btn alt" onclick="listView()"><i class="fa fa-bars"></i> List</button>
+                    <button class="btn alt active" onclick="gridView()"><i class="fa fa-th-large"></i> Grid</button>
+                </div>
+                <br />
+                <div class="\-6u\28medium\29">
+                    <label>Total cost<span id="totalCost" style="border:1px solid black"></span></label>
+                    <button class="alt" id="btnCheckOut">Check Out<i class="fa fa-checkout"></i></button>
+                </div>
+                <br>
+                <a class="editor_edit" id="btnReturnVideo">Return Video/s</a>
+                <br />
+                <div id="ContainerDiv">
+                    <div class="row " id="ContainerRow">
+                    </div>
+                </div>
+            </div>
+            @*Model to Checkout*@
+            <div class="content">
+                <div id="divVideoCheckOut" class="modal">
+                    <input type="hidden" id="HFCustomerID" />
+                    <div class="modal-content">
+                        <h3>Video Edit</h3>
+                        <span class="close">&times;</span>
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Customer Name" id="txtVideoCustomerName" />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Please add Phone Number" id="txtVideoPhoneNumber" />
+                            </div>
                         </div>
-                    }*@
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="amount" id="txtAmount" disabled />
+                            </div>
+                            <div class="6u 12u$(xsmall)">
+                                <input type="text" placeholder="Video Titles" id="txtVideoTitles" disabled />
+                            </div>
+                        </div>
+                        <div class="row uniform" style="margin-bottom: 10px">
+                            <div class="6u 12u$(xsmall)">
+                                <button id="btnCheckVideo" class="special">Check out</button>
+                                <button id="btnCancelCheckout" class="alt" onclick="cancelCheckout()">Cancel</button>
+                            </div>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 </section>
 

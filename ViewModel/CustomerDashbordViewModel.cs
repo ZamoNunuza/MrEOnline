@@ -10,5 +10,8 @@ namespace ViewModel
     public class CustomerDashbordViewModel
     {
         public List<VideosGetbyStatus> AllVideosView { get; set; }
+        public VideoRental videoRentalInsert { get; set; }
+        public List<VideoReturnByNumber> VideoByNumber { get; set; }
+        public VideoUpdateReturn videoRentalUpdate { get; set; }
     }
 }

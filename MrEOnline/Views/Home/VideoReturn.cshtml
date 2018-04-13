@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "VideoReturn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="~/Content/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/select.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/editor.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/datatables.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/Scripts/js/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
+    @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
+    <script src="~/Scripts/js/dataTables.select.min.js"></script>
+    <script src="~/Scripts/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/js/dataTables.editor.min.js"></script>
+    <script src="~/Scripts/js/datatables.js"></script>
+    <script>
+        $(document).ready(function () {
+            var uri = window.location.toString();
+            var username = getQueryString('Username', uri);
+            console.log(username)
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
+            $(document).on('click', 'btnReturned', function (e) {
+                e.preventDefault();
+
+                var RentalID = $(this).attr('data-RentalID-attr');
+                var VideoID = $(this).attr('data-videoID-attr');
+                var url = '/Home/UpdateReturn?RentalID=' + RentalID + '&VideoID=' + VideoID;
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataTYpe: 'json',
+                    success: function (result) {
+                        swal({
+                            title: 'Success!',
+                            text: 'Video Return was successfully.',
+                            type: 'success',
+                            confirmButtonText: 'Ok'
+                        })
+                        
+                    }
+                });
+            });
+            $('#btnBacktoAdminDash').on('click', function (e) {
+                e.preventDefault();
+                var url = '/Home/CustomerAdministration?username=' + username;
+                window.open(url, '_self')
+            })
+            $('#btnSearch').on('click', function (e) {
+                e.preventDefault();
+                SearchVideoReturn()
+            })
+        })
+        //serach by phone
+        function SearchVideoReturn() {
+            var phoneNumber = $('#txtPhoneNumber').val();
+            var url = '/Home/SearchByPhone?PhoneNumber=' + phoneNumber;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result)
+                    var table = $('#gvReturnVideos').DataTable();
+                    table.destroy();
+                    var table = $('#gvReturnVideos');
+                    table.DataTable({
+                        response: true,
+                        "data": result.VideoByNumber,
+                        columns: [
+                            { "data": "RentalID" },
+                            { "data": "CustomerID" },
+                            { "data": "VideoID" },
+                            { "data": "Title" },
+                            { "data": "CustomerPhone", render: $.fn.dataTable.render.number(',', '.', 0, 'R') },
+                            { "data": "RentalDate" },
+                            { data: null, render: function (data, type, row) { return "<a class='btnReturned editor_edit button special' data-RentalID-attr='" + data.RentalID + "'data-videoID-attr='" + data.VideoID + "'>Return</a>" } }
+                        ],
+                        select: true,
+
+                    })
+
+
+                }
+
+            });
+        }
+
+        var getQueryString = function (field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        };
+    </script>
+}
+<header id="header">
+    <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+    <a href="#menu" class="toggle"><span>Menu</span></a>
+</header>
+<section id="one" class="wrapper style2">
+    <div class="inner">
+        <div class="box">
+            @*This is Return Video *@
+            <div class="content" id="divReturnVideo">
+                <header class="align-center">
+                    <h2>Video Return</h2>
+                </header>
+                <div class="">
+                    <button class="button 3u 12u$(xsmall)" id="btnBacktoAdminDash" onclick="BacktoDash()">back to Dashboard</button>
+                    <div class="row uniform" style="display:block;margin-top:10px" id="divAddVideo">
+                        <div class="6u 12u$(xsmall)">
+                            <input type="text" placeholder="Please enter phone number" id="txtPhoneNumber" />
+                        </div>
+                        <div class="8u 12u$(xsmall)">
+                            <button id="btnSearch" type="button" data-loading-text="Loading... ">Search</button>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px">
+                        <table id="gvReturnVideos" class="display responsive wrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="all">Rental ID</th>
+                                    <th class="all">Customer ID</th>
+                                    <th class="none">Video ID</th>
+                                    <th class="all">Title</th>
+                                    <th class="none">Rental Date</th>
+                                    <th class="None">Customer Phone</th>
+                                    <th class="all"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

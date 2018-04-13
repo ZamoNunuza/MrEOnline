@@ -17,7 +17,7 @@ namespace DAC.StoredProcedure
             Constants constants = new Constants();
             using (IDbConnection connection = new SqlConnection(constants.connectionString))
             {
-                const string storedProcedure = "[dbo].[Video_GetAll]";
+                const string storedProcedure = "[dbo].[Video_GetAll_ByStatus]";
                 return (List<VideosGetbyStatus>)connection.Query<VideosGetbyStatus>(storedProcedure, commandType: CommandType.StoredProcedure);
             }
         }

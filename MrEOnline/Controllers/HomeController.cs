@@ -198,18 +198,64 @@ namespace MrEOnline.Controllers
             CoreAdministration core = new CoreAdministration();
             return Json(core.UpdateCustomers(CustomerID,CustomerName,Address,PhoneNumber,Password,EmailAddress,Status),JsonRequestBehavior.AllowGet);
         }
-
         //Customer Dashboard
         public ActionResult CustomerDashboard(string username)
         {
-            ViewBag.RemoveSelectedTitle = "User";
-            ViewBag.RemoveSelectedactionName = username;
-            return View();
+            if (username is null)
+            {
+                ViewBag.Message = "Please Login in!!";
+                return View();
+            }
+            else
+            {
+                ViewBag.ReturnVi = "Return Video";
+                ViewBag.RemoveSelectelactionName = "CustomerDashboard";
+                ViewBag.RemoveSelectedTitle = "User";
+                ViewBag.RemoveSelectedactionName = username;
+                return View();
+            }
         }
+        //Views all the videos availale
         public ActionResult ViewVideosCustomer()
         {
             CoreCustomer core = new CoreCustomer();
             return Json(core.VideoView(),JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        //Take all the Rental information to the database
+        public ActionResult VideoRental(List<string> VideoID, string CustomerName, string CustomerPhone, List<string> Title)
+        {
+            CoreCustomer core = new CoreCustomer();
+            string videoIDs = string.Join(",", VideoID );
+            string title = string.Join(",", Title);
+
+            return Json(core.InsertRental(videoIDs, CustomerName,CustomerPhone, title),JsonRequestBehavior.AllowGet);
+        }
+        //returning videos rented
+        public ActionResult VideoReturn(string username)
+        {
+            if (username is null)
+            {
+                ViewBag.Message = "Please Login in!!";
+                return View();
+            }
+            else
+            {
+                ViewBag.RemoveSelectedTitle = "User";
+                ViewBag.RemoveSelectedactionName = username;
+                return View();
+            }
+        }
+        public ActionResult SearchByPhone(string PhoneNumber)
+        {
+            CoreCustomer core = new CoreCustomer();
+            return Json(core.SearchReturn(PhoneNumber), JsonRequestBehavior.AllowGet);
+
+        }
+        public ActionResult UpdateReturn(string RentalID, string VideoID)
+        {
+            CoreCustomer core = new CoreCustomer();
+            return Json(core.UpdateRentalReturn(RentalID, VideoID),JsonRequestBehavior.AllowGet);
         }
     }
 }

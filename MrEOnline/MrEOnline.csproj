@@ -173,7 +173,10 @@
     <Compile Include="Models\UpdateCustomer.cs" />
     <Compile Include="Models\UpdateVideo.cs" />
     <Compile Include="Models\VideoGetbyID.cs" />
+    <Compile Include="Models\VideoRental.cs" />
+    <Compile Include="Models\VideoReturnByNumber.cs" />
     <Compile Include="Models\VideosGetbyStatus.cs" />
+    <Compile Include="Models\VideoUpdateReturn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -276,8 +279,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\AdminDashboard.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -291,6 +292,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\CustomerAdministration.cshtml" />
     <Content Include="Views\Home\CustomerDashboard.cshtml" />
+    <Content Include="Views\Home\VideoReturn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
