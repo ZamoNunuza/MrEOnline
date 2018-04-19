@@ -11,14 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\View
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{B5109A9B-F755-4D0C-A4CD-BF8520401D9C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{DCCA6732-E2A0-436D-BCEC-5AE43876E7FD}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\Users\Nomzamo\Downloads\Architecture Design Document.pdf = ..\..\Users\Nomzamo\Downloads\Architecture Design Document.pdf
-		..\..\Users\Nomzamo\Documents\MrEOnline\Movie_Infomation.csv = ..\..\Users\Nomzamo\Documents\MrEOnline\Movie_Infomation.csv
-		..\..\Program Files\Microsoft SQL Server\MSSQL12.ZAMOSQLSERVER\MSSQL\Backup\MrEOnlineRental.bak = ..\..\Program Files\Microsoft SQL Server\MSSQL12.ZAMOSQLSERVER\MSSQL\Backup\MrEOnlineRental.bak
-		..\..\Users\Nomzamo\Downloads\SQLQuery1.sql = ..\..\Users\Nomzamo\Downloads\SQLQuery1.sql
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +38,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {79B0B34A-0D44-4C12-8F0B-3F941F582F61}
+		SolutionGuid = {9B46E385-7619-472D-864C-F64983B8D2F3}
 	EndGlobalSection
 EndGlobal

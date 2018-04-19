@@ -48,12 +48,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Core">
-      <HintPath>..\Core\bin\Debug\Core.dll</HintPath>
+    <Reference Include="Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Shared Resources\Core.dll</HintPath>
     </Reference>
     <Reference Include="DAC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DAC\bin\Debug\DAC.dll</HintPath>
+      <HintPath>Shared Resources\DAC.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
@@ -115,8 +116,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="ViewModel">
-      <HintPath>..\ViewModel\bin\Debug\ViewModel.dll</HintPath>
+    <Reference Include="ViewModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Shared Resources\ViewModel.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -268,6 +270,89 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\util.js" />
+    <Content Include="Shared Resources\Antlr3.Runtime.dll" />
+    <Content Include="Shared Resources\Antlr3.Runtime.pdb" />
+    <Content Include="Shared Resources\Core.dll" />
+    <Content Include="Shared Resources\Core.pdb" />
+    <Content Include="Shared Resources\DAC.dll" />
+    <Content Include="Shared Resources\DAC.pdb" />
+    <Content Include="Shared Resources\Dapper.dll" />
+    <Content Include="Shared Resources\Dapper.xml" />
+    <Content Include="Shared Resources\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="Shared Resources\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="Shared Resources\Microsoft.AI.DependencyCollector.xml" />
+    <Content Include="Shared Resources\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="Shared Resources\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="Shared Resources\Microsoft.AI.ServerTelemetryChannel.xml" />
+    <Content Include="Shared Resources\Microsoft.AI.Web.dll" />
+    <Content Include="Shared Resources\Microsoft.AI.Web.xml" />
+    <Content Include="Shared Resources\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="Shared Resources\Microsoft.AI.WindowsServer.xml" />
+    <Content Include="Shared Resources\Microsoft.ApplicationInsights.dll" />
+    <Content Include="Shared Resources\Microsoft.ApplicationInsights.xml" />
+    <Content Include="Shared Resources\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="Shared Resources\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="Shared Resources\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="Shared Resources\MrEOnline.dll" />
+    <Content Include="Shared Resources\MrEOnline.pdb" />
+    <Content Include="Shared Resources\Newtonsoft.Json.dll" />
+    <Content Include="Shared Resources\Newtonsoft.Json.xml" />
+    <Content Include="Shared Resources\roslyn\csc.exe" />
+    <Content Include="Shared Resources\roslyn\csi.exe" />
+    <Content Include="Shared Resources\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="Shared Resources\roslyn\Microsoft.Win32.Primitives.dll" />
+    <Content Include="Shared Resources\roslyn\System.AppContext.dll" />
+    <Content Include="Shared Resources\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="Shared Resources\roslyn\System.Console.dll" />
+    <Content Include="Shared Resources\roslyn\System.Diagnostics.FileVersionInfo.dll" />
+    <Content Include="Shared Resources\roslyn\System.Diagnostics.Process.dll" />
+    <Content Include="Shared Resources\roslyn\System.Diagnostics.StackTrace.dll" />
+    <Content Include="Shared Resources\roslyn\System.IO.Compression.dll" />
+    <Content Include="Shared Resources\roslyn\System.IO.FileSystem.dll" />
+    <Content Include="Shared Resources\roslyn\System.IO.FileSystem.DriveInfo.dll" />
+    <Content Include="Shared Resources\roslyn\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="Shared Resources\roslyn\System.IO.Pipes.dll" />
+    <Content Include="Shared Resources\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="Shared Resources\roslyn\System.Security.AccessControl.dll" />
+    <Content Include="Shared Resources\roslyn\System.Security.Claims.dll" />
+    <Content Include="Shared Resources\roslyn\System.Security.Cryptography.Algorithms.dll" />
+    <Content Include="Shared Resources\roslyn\System.Security.Cryptography.Encoding.dll" />
+    <Content Include="Shared Resources\roslyn\System.Security.Cryptography.Primitives.dll" />
+    <Content Include="Shared Resources\roslyn\System.Security.Cryptography.X509Certificates.dll" />
+    <Content Include="Shared Resources\roslyn\System.Security.Principal.Windows.dll" />
+    <Content Include="Shared Resources\roslyn\System.Text.Encoding.CodePages.dll" />
+    <Content Include="Shared Resources\roslyn\System.Threading.Thread.dll" />
+    <Content Include="Shared Resources\roslyn\System.ValueTuple.dll" />
+    <Content Include="Shared Resources\roslyn\System.Xml.ReaderWriter.dll" />
+    <Content Include="Shared Resources\roslyn\System.Xml.XmlDocument.dll" />
+    <Content Include="Shared Resources\roslyn\System.Xml.XPath.dll" />
+    <Content Include="Shared Resources\roslyn\System.Xml.XPath.XDocument.dll" />
+    <Content Include="Shared Resources\roslyn\vbc.exe" />
+    <Content Include="Shared Resources\roslyn\VBCSCompiler.exe" />
+    <Content Include="Shared Resources\System.Web.Helpers.dll" />
+    <Content Include="Shared Resources\System.Web.Helpers.xml" />
+    <Content Include="Shared Resources\System.Web.Mvc.dll" />
+    <Content Include="Shared Resources\System.Web.Mvc.xml" />
+    <Content Include="Shared Resources\System.Web.Optimization.dll" />
+    <Content Include="Shared Resources\System.Web.Optimization.xml" />
+    <Content Include="Shared Resources\System.Web.Razor.dll" />
+    <Content Include="Shared Resources\System.Web.Razor.xml" />
+    <Content Include="Shared Resources\System.Web.WebPages.Deployment.dll" />
+    <Content Include="Shared Resources\System.Web.WebPages.Deployment.xml" />
+    <Content Include="Shared Resources\System.Web.WebPages.dll" />
+    <Content Include="Shared Resources\System.Web.WebPages.Razor.dll" />
+    <Content Include="Shared Resources\System.Web.WebPages.Razor.xml" />
+    <Content Include="Shared Resources\System.Web.WebPages.xml" />
+    <Content Include="Shared Resources\ViewModel.dll" />
+    <Content Include="Shared Resources\ViewModel.pdb" />
+    <Content Include="Shared Resources\WebGrease.dll" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -293,6 +378,20 @@
     <Content Include="Views\Home\CustomerAdministration.cshtml" />
     <Content Include="Views\Home\CustomerDashboard.cshtml" />
     <Content Include="Views\Home\VideoReturn.cshtml" />
+    <Content Include="Shared Resources\ApplicationInsights.config" />
+    <Content Include="Shared Resources\Core.dll.config" />
+    <Content Include="Shared Resources\DAC.dll.config" />
+    <Content Include="Shared Resources\MrEOnline.dll.config" />
+    <Content Include="Shared Resources\roslyn\csc.exe.config" />
+    <Content Include="Shared Resources\roslyn\csc.rsp" />
+    <Content Include="Shared Resources\roslyn\csi.exe.config" />
+    <Content Include="Shared Resources\roslyn\csi.rsp" />
+    <Content Include="Shared Resources\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="Shared Resources\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="Shared Resources\roslyn\vbc.exe.config" />
+    <Content Include="Shared Resources\roslyn\vbc.rsp" />
+    <Content Include="Shared Resources\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="Shared Resources\ViewModel.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

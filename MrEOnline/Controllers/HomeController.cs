@@ -249,13 +249,17 @@ namespace MrEOnline.Controllers
         public ActionResult SearchByPhone(string PhoneNumber)
         {
             CoreCustomer core = new CoreCustomer();
-            return Json(core.SearchReturn(PhoneNumber), JsonRequestBehavior.AllowGet);
-
+            return Json(core.SearchByPhone(PhoneNumber), JsonRequestBehavior.AllowGet);
         }
         public ActionResult UpdateReturn(string RentalID, string VideoID)
         {
             CoreCustomer core = new CoreCustomer();
-            return Json(core.UpdateRentalReturn(RentalID, VideoID),JsonRequestBehavior.AllowGet);
+            return Json(core.UpdateRentalReturn(RentalID, VideoID), JsonRequestBehavior.AllowGet);
         }
+        //public ActionResult UpdateReturn(string RentalID, string VideoID)
+        //{
+        //    CoreCustomer core = new CoreCustomer();
+        //    return Json(core.UpdateRentalReturn(RentalID, VideoID),JsonRequestBehavior.AllowGet);
+        //}
     }
 }

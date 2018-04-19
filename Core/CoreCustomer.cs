@@ -11,6 +11,7 @@ namespace Core
 {
     public class CoreCustomer
     {
+        
         public CustomerDashbordViewModel VideoView()
         {
             VideoGetAllByStatus repos = new VideoGetAllByStatus();
@@ -34,28 +35,29 @@ namespace Core
 
 
         }
-        public CustomerDashbordViewModel UpdateRentalReturn(string RentalID, string VideoID)
+
+        public CustomerDashbordViewModel SearchByPhone(string PhoneNumber)
         {
-            ReturnVideoUpdate repos = new ReturnVideoUpdate();
+            SearchReturnByNumber reposi = new SearchReturnByNumber();
             CustomerDashbordViewModel viewModel = new CustomerDashbordViewModel();
-            VideoUpdateReturn model = new VideoUpdateReturn();
+           List< VideoReturnByNumber> model = new List<VideoReturnByNumber>();
 
-            model = repos.GetVideosReturn(RentalID, VideoID);
-            viewModel.videoRentalUpdate = model;
-            return viewModel;
-
-        }
-        public CustomerDashbordViewModel SearchReturn(string PhoneNumber)
-        {
-            SearchReturnByNumber repos = new SearchReturnByNumber();
-            CustomerDashbordViewModel viewModel = new CustomerDashbordViewModel();
-            List<VideoReturnByNumber> model = new List<VideoReturnByNumber>();
-
-            model = repos.GetVideoBuySearch(PhoneNumber);
+            model = reposi.GetVideoBuySearch(PhoneNumber);
             viewModel.VideoByNumber = model;
             return viewModel;
 
-
         }
+        public CustomerDashbordViewModel UpdateRentalReturn(string RentalID, string VideoID)
+        {
+            ReturnVideoUpdate repsoi = new ReturnVideoUpdate();
+            CustomerDashbordViewModel viewModel = new CustomerDashbordViewModel();
+            VideoUpdateReturn model = new VideoUpdateReturn();
+
+            model = repsoi.GetVideosReturn(RentalID, VideoID);
+            viewModel.videoRentalUpdate = model;
+            return viewModel;
+        }
+
+
     }
 }
