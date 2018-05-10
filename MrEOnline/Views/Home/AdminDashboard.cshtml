@@ -110,7 +110,7 @@
     @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
     <script src="~/Scripts/js/dataTables.select.min.js"></script>
     <script src="~/Scripts/js/dataTables.responsive.min.js"></script>
-    <script src="~/Scripts/js/dataTables.editor.min.js"></script>
+    @*<script src="~/Scripts/js/dataTables.editor.min.js"></script>*@
     <script src="~/Scripts/js/datatables.js"></script>
 
     <script>
@@ -146,7 +146,7 @@
             //Video List Upload
             $('#btnUplaod').on('click', function (e) {
                 e.preventDefault();
-
+                debugger;
                 var filePath = $('#txtFilepath').val();
 
                 var fileUpload = $("#UplFile").get(0);
@@ -164,7 +164,7 @@
                 //if (files.length > 0) {
                 //uploadFile.append("Movie_Information.csv", files[0]);
                 $.ajax({
-                    url: "/Home/UploadCsvFile?filePath=" + filePath + '&UserID=' + UserName,
+                    url: "/Home/UploadCsvFile?filePath=" + filePath + '&UserID=' + username,
                     contentType: false,
                     processData: false,
                     data: uploadFile,
