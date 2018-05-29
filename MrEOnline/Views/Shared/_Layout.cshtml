@@ -12,7 +12,7 @@
 <body>
 
     <!-- Header -->
-    <header id="header" class="alt">
+    <header id="header">
         <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
         <a href="#menu" class="toggle"><span>Menu</span></a>
     </header>
@@ -21,12 +21,12 @@
     <nav id="menu">
 
         <ul class="links">
-            <li><i class="icon fa fa-user"></i>@Html.Label((string)ViewBag.RemoveSelectedTitle, (string)ViewBag.RemoveSelectedactionName, new { @class = "fa fa-user" })</li>
+            @*<li><i class="icon fa fa-user"></i>@Html.Label((string)ViewBag.RemoveSelectedTitle, (string)ViewBag.RemoveSelectedactionName, new { @class = "fa fa-user" })</li>*@
 
             <li>@Html.ActionLink("Home", "Index", "Home")</li>
             @*<li>@Html.ActionLink((string)ViewBag.ReturnVi, "CustomerDashboard", "Home")</li>*@
             @*<li><a href="generic.html">Generic</a></li>
-        <li><a href="elements.html">Elements</a></li>*@
+                <li><a href="elements.html">Elements</a></li>*@
         </ul>
     </nav>
 
@@ -51,8 +51,9 @@
     <script src="~/Scripts/loadash.js"></script>
     <script src="~/Scripts/sweetalert2.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/react-0.14.3/build/react.js"></script>
     @RenderSection("scripts", required: false)
-    @RenderSection("style", required:false)
+    @RenderSection("style", required: false)
 </body>
 </html>
 

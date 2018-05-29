@@ -7,10 +7,14 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-
+using Newtonsoft.Json;
+using System.Xml;
+using System.Data;
+using System.Linq;
 
 namespace MrEOnline.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
         public ActionResult ListofVideos()
@@ -46,17 +50,17 @@ namespace MrEOnline.Controllers
         //Admin Dashboard
         public ActionResult AdminDashboard(string Username )
         {
-            if (Username is null)
-            {
-                ViewBag.Message = "Please Login in!!";
-                return View();
-            }
-            else {
-                ViewBag.RemoveSelectedTitle = "User";
-                ViewBag.RemoveSelectedactionName = Username;
+            //if (Username is null)
+            //{
+            //    ViewBag.Message = "Please Login in!!";
+            //    return View();
+            //}
+            //else {
+            //    ViewBag.RemoveSelectedTitle = "User";
+            //    ViewBag.RemoveSelectedactionName = Username;
                 CoreAdministration core = new CoreAdministration();
                 return View(core.GetStatusDropdown());
-            }
+            //}
             
         }
         // Video Administration and Admin Insert
@@ -73,75 +77,135 @@ namespace MrEOnline.Controllers
         [HttpPost]
         public ActionResult UploadCsvFile(string filePath)
         {
+            // Checking no of files injected in Request object
             if (Request.Files.Count > 0)
             {
                 try
                 {
+                    string VideoList = "";
+                    string Title = "";
+                    string Description = "";
+                    string Genre = "";
+                    string RentalPrice = "";
+                    //string Date;
+                    DateTime dateTime = DateTime.UtcNow.Date;
+
+                    //  Get all files from Request object  
                     HttpFileCollectionBase files = Request.Files;
                     for (int i = 0; i < files.Count; i++)
                     {
+
                         HttpPostedFileBase file = files[i];
-                        string fileName;
-
-                        fileName = file.FileName;
-
-                        fileName = Path.Combine(filePath, fileName);
-
-                        List<VideoInfo> uploadModelList = new List<VideoInfo>();
-
-                        string csvData = System.IO.File.ReadAllText(fileName);
-
-                        foreach (string row in csvData.Split('\n'))
+                        string fName;
+                        // Checking for Internet Explorer  
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                         {
-                            VideoInfo uploadModelRecord = new VideoInfo();
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fName = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fName = file.FileName;
+                        }
+
+                        // Get the complete folder path and store the file inside it.
+                        XmlDocument configxml = new XmlDocument();
+                        configxml.Load(AppDomain.CurrentDomain.BaseDirectory + "/Config.xml");
+
+                        fName = configxml.GetElementsByTagName("UploadLocation").Item(0).InnerXml + fName;
+                        fName = fName.Replace(@"\\", @"\");
+
+                        file.SaveAs(fName);
+
+                        DataTable dt = new DataTable();
+                        dt.Columns.AddRange(new DataColumn[8] { new DataColumn("Title", typeof(string)),
+                            new DataColumn("Description",typeof(string)),
+                            new DataColumn("Genre",typeof(string)),
+                            new DataColumn("RentalPrice",typeof(string)),
+                            new DataColumn("Status",typeof(string)),
+                            new DataColumn("UserAdded",typeof(string)),
+                            new DataColumn("DateAdded",typeof(string)),
+                            new DataColumn("RentalStatus",typeof(string))});
+
+                        string csvData = System.IO.File.ReadAllText(fName);
+
+                        List<AddVideo> lists = new List<AddVideo>();
+
+                        AddVideo videoList = new AddVideo();
+
+                        //Excute a loop over the rows
+                        int RowCount = 0;
+                        foreach (string row in csvData.Split('\n').Skip(1))
+                        {
                             if (!string.IsNullOrEmpty(row))
                             {
+                                dt.Rows.Add();
                                 int a = 0;
-                                string VideoList = "";
-                                string Title = "";
-                                string Description = "";
-                                string Genre = "";
-                                string RentalPrice = "";
 
                                 //Execute a loop the columns
                                 foreach (string cellValue in row.Split(';'))
                                 {
                                     string cell = cellValue.Replace("\r\n", "").Replace("\r", "").Replace("\n", "");
-                                    if (a == 0)
+                                    if (RowCount == 0)
                                     {
-                                        Title = cell;
+                                        if (a == 0)
+                                        {
+                                            Title = cell;
+                                        }
+                                        else if (a == 1)
+                                        {
+                                            Description = cell;
+                                        }
+                                        else if (a == 2)
+                                        {
+                                            Genre = cell;
+                                        }
+                                        else if (a == 3)
+                                        {
+                                            RentalPrice = cell;
+                                        }
                                     }
-                                    else if (a == 1)
-                                    {
-                                        Description = cell;
-                                    }
-                                    else if (a == 2)
-                                    {
-                                        Genre = cell;
-                                    }
-                                    else if (a == 3)
-                                    {
-                                        RentalPrice = cell;
-                                    }
+                                    dt.Rows[dt.Rows.Count - 1][a] = cell;
                                     a++;
                                 }
-                                VideoList = Title + Description + Genre + RentalPrice;
-                                uploadModelRecord.Title = Title;
-                                uploadModelRecord.Description = Description;
-                                uploadModelRecord.Genre = Genre;
-                                uploadModelRecord.RentalPrice = RentalPrice;
+                                RowCount++;
+                                videoList.Title = Title;
+                                videoList.Description = Description;
+                                videoList.Genre = Genre;
+                                videoList.RentalPrice = RentalPrice;
                             }
-                            uploadModelList.Add(uploadModelRecord);
+                            lists.Add(videoList);
                         }
+                        
+
+
                         Constants constants = new Constants();
                         using (SqlConnection con = new SqlConnection(constants.connectionString))
                         {
-                            foreach (var item in uploadModelList)
+                            foreach (var item in lists)
                             {
-                                CoreVideoListAdd insert = new CoreVideoListAdd();
-                                insert.InsertVideo(item.Title, item.Description, item.Genre, item.RentalPrice);
+                                CoreVideoListAdd add = new CoreVideoListAdd();
+                                add.InsertVideo(item.Title, item.Description, item.Genre, item.RentalPrice);
                             }
                             con.Close();
+                            //using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                            //{
+                            //    // Set the datatbase table name
+                            //    //sqlBulkCopy.DestinationTableName = "[dbo].[VideoAdministration]";
+
+                            //    //sqlBulkCopy.ColumnMappings.Add("Title","Title");
+                            //    //sqlBulkCopy.ColumnMappings.Add("Description", "Description");
+                            //    //sqlBulkCopy.ColumnMappings.Add("Genre", "Genre");
+                            //    //sqlBulkCopy.ColumnMappings.Add("RentalPrice", "RentalPrice");
+                            //    ////sqlBulkCopy.ColumnMappings.Add("Status", "1");
+                            //    ////sqlBulkCopy.ColumnMappings.Add("UserAdded", "null");
+                            //    ////sqlBulkCopy.ColumnMappings.Add("DateAdded", dateTime.ToString());
+                            //    ////sqlBulkCopy.ColumnMappings.Add("RentalStatus", "Available");
+
+                            //    //con.Open();
+                            //    //sqlBulkCopy.WriteToServer(dt);
+                            //    con.Close();
+                            //}
                         }
                     }
                     return Json("File Uploaded Successfully!");

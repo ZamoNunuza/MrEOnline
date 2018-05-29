@@ -75,6 +75,8 @@
         }
 </style>
 @section Scripts{
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="~/Scripts/js/jquery-1.12.4.js"></script>
     <script src="~/Scripts/js/jquery.dataTables.min.js"></script>
     @*<script src="~/Scripts/js/dataTables.buttons.min.js"></script>*@
@@ -99,18 +101,20 @@
             var amount = 0;
             var VideoID
             var VideoTitle
+            var RentalPrice
 
-            $('#btnReturnVideo').on('click', function (e) {
-                var url = '/Home/VideoReturn?username=' + username;
-                window.open(url, '_self')
-            })
+            //$('#btnReturnVideo').on('click', function (e) {
+            //    var url = '/Home/VideoReturn?username=' + username;
+            //    window.open(url, '_self')
+            //})
 
             $(document).on('click', '.add', function () {
                 VideoID = $(this).attr('data-add-video');
                 VideoTitle = $(this).attr('data-title');
+                RentalPrice = $(this).attr('data-rental-price');
                 MovieAdds.push(VideoID)
                 Titles.push(VideoTitle)
-                amount = amount + 40;
+                amount = amount + parseInt(RentalPrice);
                 $('#totalCost').text('R' + amount + '.00')
 
             })
@@ -153,22 +157,31 @@
                         var RentalPrice = this.RentalPrice
 
                         //var RowDiv = $("<div></div>").addClass("row").attr("data-videoid", VideoID)
-                        var ColumnDiv = $("<div></div>").addClass("column col-xs-6 ")
-                        var HeaderTitle = $("<h2></h2>").text(Title)
-                        var spanGenre = $("<span></span>").css("font-size", "12px").text(Genre);
+                        var ColumnDiv = $("<div></div>").addClass("column col-xs-6 ").attr("id","accordion")
+                        var HeaderTitle = $("<a></a>").attr("data-toggle", "collapse").attr("href", "#" + VideoID)
+                        var Title = $("<h1></h1>").text(Title).css("margin-bottom","0px")
+                        var icons = $("<i></i>").addClass("fa fa-plus longIcon").css("position","relative").css("top", "-22px").css("left"," 33em")
+                        var spanGenre = $("<span></span>").css("font-size", "12px").css("font-variant", "small-caps").css("font-style", "italic").text("("+Genre+")");
+                        var Content = $("<div></div>").addClass("collapse").attr("id",  VideoID)
                         var PDescrip = $("<p></p>").text(Description).css("font-size", "12px")
                         var PRental = $("<p></p>").text("R" + RentalPrice + ".00").attr("data-add-video", RentalPrice)
-                        var AddButton = $("<a></a>").addClass("12u 12u$(xsmall) editor_edit button special add").text("Add").attr("data-add-video", VideoID).attr("data-title", Title)
+                        var AddButton = $("<a></a>").addClass("12u 12u$(xsmall) editor_edit button special add").text("Add").attr("data-add-video", VideoID).attr("data-title", Title).attr("data-rental-price", RentalPrice)
                         var icon = $("<i></i>").addClass("fa fa-plus")
 
-                        HeaderTitle.append(spanGenre)
-                        ColumnDiv.append(HeaderTitle)
-                        ColumnDiv.append(PDescrip)
-                        ColumnDiv.append(PRental)
-                        ColumnDiv.append(AddButton)
+                        //HeaderTitle.append(spanGenre)
+                        
+                        HeaderTitle.append(Title)
+                        HeaderTitle.append(icons)
+                        Title.append(spanGenre)
+                        
+
+                        Content.append(PDescrip)
+                        Content.append(PRental)
+                        Content.append(AddButton)
 
                         AddButton.append(icon)
-
+                        ColumnDiv.append(HeaderTitle)
+                        ColumnDiv.append(Content)
 
                         $('#ContainerRow').append(ColumnDiv)
 
@@ -222,18 +235,22 @@
         }
         // Get the elements with class="column"
         var elements = document.getElementsByClassName("column");
+        var plusicon = document.getElementsByClassName("longIcon");
+        
         // Declare a loop variable
         var i;
         //For the List View
         function listView() {
             for (var i = 0; i < elements.length; i++) {
                 elements[i].style.width = "100%";
+                plusicon[i].style.left = "68em";
             }
         }
         //For the Grid View
         function gridView() {
             for (var i = 0; i < elements.length; i++) {
                 elements[i].style.width = "50%";
+                plusicon[i].style.left = "33em";
             }
         }
         //This Adds active class to the current button (highlight it)

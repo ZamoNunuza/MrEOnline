@@ -1,43 +1,62 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿
 
 @section Scripts{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/components/button.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
     <script>
+        var LoginType
         $(document).ready(function () {
             $('#btnGetStarted').on('click', function (e) {
                 e.preventDefault();
-                $('#login').show();
+                $('#ChooseLogin').show();
+                $('#login').hide();
                 $('#banner').hide();
                 $('#header').show();
             });
+            $('#btnCustomer').on('click', function (e) {
+                e.preventDefault();
+                $('#login').attr("data-logintype", 'Customer')
+                $('#login').show()
+                $('#ChooseLogin').hide();
+
+            })
+            $('#btnAdmin').on('click', function (e) {
+                e.preventDefault();
+                $('#login').attr("data-logintype", 'Admin')
+                $('#login').show()
+                $('#ChooseLogin').hide();
+
+            })
             $('#btnLogin').on('click', function (e) {
                 e.preventDefault();
                 var userUserName = $('#txtUserName').val();
                 var userPassword = $('#txtPassword').val();
-                
+                LoginType = $(this).attr('data-logintype');
 
-                if ($("#demo-copy").is(':checked')) {
-                    AdminByUserName();
-                } else {
+                if (LoginType == "Customer") {
                     CustomerByUserName();
+                } else {
+                    AdminByUserName();
                 }
 
             });
             $('#btnRegister').on('click', function (e) {
                 e.preventDefault();
+                $('#ChooseLogin').hide();
                 $('#login').hide();
                 $('#banner').hide();
                 $('#registration').show();
-                $('#header').show();
+
 
             });
             $('#btnBackHome').on('click', function (e) {
                 e.preventDefault();
-                $('#login').show();
+                $('#ChooseLogin').show();
+                $('#login').hide();
                 $('#banner').hide();
                 $('#registration').hide();
-                $('#header').show();
+
             });
 
             //Registration Customer Insert
@@ -57,7 +76,7 @@
             var PhoneNumber = $('#txtPhoneNumber').val();
             var Password = $('#txtregPassword').val();
             var EmailAddress = $('#txtEmaiAddress').val();
-            
+
             $.ajax({
                 type: 'POST',
                 url: "/Home/RegistrationInsert",
@@ -72,9 +91,9 @@
                 success: function (result) {
                     debugger;
                     var Exist = _.map(result, i => _.pick(i, 'Exist'))
-                   var exist = Exist[0].Exist
+                    var exist = Exist[0].Exist
                     var CustomerID = _.map(result, i => _.pick(i, 'CutomerID'))
-                    var selectedCustomerID 
+                    var selectedCustomerID
                     selectedCustomer = CustomerID[0].CustomerID
 
                     var Result = _.map(result, i => _.pick(i, 'result'))
@@ -153,12 +172,12 @@
 
             });
         }
-        
+
     </script>
-    
-    }
-    
-<section id="banner" >
+
+}
+
+<section id="banner">
     <div class="inner">
         <h1>Mr. E Online Rental</h1>
         <p>
@@ -170,16 +189,30 @@
     </div>
 </section>
 <div>
-    <header id="header" class="alt" style="display:none">
-        <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
-        <a href="#menu" class="toggle"><span>Menu</span></a>
-    </header>
+    <!-- Choose Login -->
+    <section id="ChooseLogin" class="wrapper style2" style="display:none">
+        <div class="inner">
+            <div class="box">
+                <div class="content">
+                    <div class="row uniform">
+                        <header class="align-center">
+                            <h3><i class="fas fa-sign-in-alt">Login As:</i></h3>
+                        </header><div class="ui large buttons" id="divLogins" style="width: 100%; margin-bottom: 0px">
+                            <button class="ui button button special" id="btnCustomer" value="ForSale" style="padding-left: 0; padding-right: 0"><i class="fa fa-user"></i>&nbsp;&nbsp; Customer</button>
+                            <div class="or" id="Or"></div>
+                            <button class="ui button button special" id="btnAdmin" value="ToRent" style="padding-left: 0; padding-right: 0"><i class="fa fa-edit"></i>&nbsp;&nbsp;&nbsp;Admin</button>
+                        </div>
+                        <div>
+                            <a value="Register" class="alt" id="btnRegister">Register</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Login -->
-    <section id="login" class="wrapper style2" style="display:none;">
-        <header id="header">
-            <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
-            <a href="#menu" class="toggle"><span>Menu</span></a>
-        </header>
+    <section id="login" style="display:none;" class="wrapper style2">
         <div class="inner">
             <div>
                 <div class="box">
@@ -195,15 +228,10 @@
                                 <div class="6u 12u$(xsmall)">
                                     <input type="password" name="Username" id="txtPassword" placeholder="password" />
                                 </div>
-                                <div class="6u 12u$(small) pull-left">
-                                    <input type="checkbox" id="demo-copy" name="demo-copy">
-                                    <label for="demo-copy">Admin</label>
-                                </div>
                             </div>
                             <div class="12u$" style="margin-top: 10px">
                                 <ul class="actions">
                                     <li><a value="Login" class="button special icon fa-sign-in" id="btnLogin">Login</a></li>
-                                    <li><input type="submit" value="Register" class="alt" id="btnRegister" /></li>
                                     <li>@Html.ActionLink("Cancel", "Index", "Home")</li>
                                 </ul>
                             </div>
@@ -215,20 +243,20 @@
     </section>
     <!--Registration-->
     <section id="registration" class="wrapper style2" style="display:none;">
-        <header id="header">
-            <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
-            <a href="#menu" class="toggle"><span>Menu</span></a>
-        </header>
+        @*<header id="header">
+                <div class="logo">@Html.ActionLink("Mr. E Online Rental", "Index", "Home")</div>
+                <a href="#menu" class="toggle"><span>Menu</span></a>
+            </header>*@
         <div class="inner">
             <div>
                 <div class="box">
                     @*<div class="image fit">
-                        <img src="images/pic01.jpg" alt="" />
-                    </div>*@
+                            <img src="images/pic01.jpg" alt="" />
+                        </div>*@
                     <div class="content">
                         <form method="post">
                             <header class="align-center">
-                                <h3><i class="fas fa-sign-in-alt">Registration</i></h3>
+                                <h3><i class="fas fa-sign-in-alt">Customer Registration</i></h3>
                             </header>
                             <div class="row uniform">
                                 <div class="6u 12u$(xsmall)">

@@ -6,5 +6,5 @@
   <gDBPassword></gDBPassword>
   <gDBAuthType>WA</gDBAuthType>
   <gDBTimeout>0</gDBTimeout>
-  
+  <UploadLocation>C:\CODE\MrEOnline</UploadLocation>
 </Root>
